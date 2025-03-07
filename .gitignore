@@ -46,3 +46,12 @@ package-lock.json
 # cursor
 .cursorrules
 
+#tailwind
+tailwind.config.ts
+tailwind.config.mjs
+
+#eslint
+.eslintrc.js
+
+#prettier
+.prettierrc.js
