@@ -10,146 +10,147 @@ export function SingleScreenLanding() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Navigation */}
-      <div className="fixed top-0 left-0 right-0 z-50 px-4 py-4">
-        <nav className="max-w-3xl mx-auto bg-white/10 backdrop-blur-md shadow-lg rounded-full border border-white/20">
-          <div className="px-6 py-2.5">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <span className="text-xl font-bold text-blue-800">
-                  Agentic<span className="text-blue-500">|</span>Mechanic
-                </span>
-              </div>
+      {/* Hero Section with Navigation */}
+      <section className="relative bg-gradient-to-br from-blue-50 via-white to-blue-50 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-200/30 via-transparent to-transparent"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-blue-100/40 via-transparent to-transparent"></div>
 
-              {/* Desktop Navigation */}
-              <div className="hidden md:flex items-center space-x-8">
-                <Link href="#features" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
-                  Features
-                </Link>
-                <Link href="#how-it-works" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
-                  How It Works
-                </Link>
-                <Link href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
-                  Contact
-                </Link>
-                <span className="bg-blue-100/80 text-blue-800 px-2.5 py-1 rounded-full font-medium">
-                  6
-                </span>
-              </div>
+        {/* Navigation */}
+        <div className="fixed top-0 left-0 right-0 z-50 px-4 py-4">
+          <nav className="max-w-3xl mx-auto backdrop-blur-md shadow-lg rounded-full border border-white/20">
+            <div className="px-8 py-3.5">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <span className="text-xl font-bold text-blue-800">
+                    Agentic<span className="text-blue-500">|</span>Mechanic
+                  </span>
+                </div>
 
-              {/* Try It Now Button */}
-              <div className="hidden md:block">
-                <button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-2 rounded-full font-medium transition-all shadow-md hover:shadow-lg">
-                  Try It Now
-                </button>
-              </div>
+                {/* Desktop Navigation */}
+                <div className="hidden md:flex items-center space-x-8">
+                  <Link href="#features" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+                    Features
+                  </Link>
+                  <Link href="#how-it-works" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+                    How It Works
+                  </Link>
+                  <Link href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+                    Contact
+                  </Link>
+                  <span className="bg-blue-100/80 text-blue-800 px-2.5 py-1 rounded-full font-medium">
+                    6
+                  </span>
+                </div>
 
-              {/* Mobile menu button */}
-              <div className="md:hidden flex items-center">
-                <button
-                  onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  className="text-gray-700 hover:text-blue-800 focus:outline-none"
-                >
-                  {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Mobile Navigation */}
-          {isMenuOpen && (
-            <div className="md:hidden bg-white/90 backdrop-blur-md rounded-xl mt-2 shadow-lg mx-4">
-              <div className="px-4 pt-2 pb-3 space-y-2">
-                <Link
-                  href="#features"
-                  className="block px-3 py-2 text-gray-700 hover:text-blue-800 hover:bg-gray-50 rounded-md"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Features
-                </Link>
-                <Link
-                  href="#how-it-works"
-                  className="block px-3 py-2 text-gray-700 hover:text-blue-800 hover:bg-gray-50 rounded-md"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  How It Works
-                </Link>
-                <Link
-                  href="#contact"
-                  className="block px-3 py-2 text-gray-700 hover:text-blue-800 hover:bg-gray-50 rounded-md"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Contact
-                </Link>
-                <button
-                  className="w-full text-left px-3 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full transition-all shadow-md"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Try It Now
-                </button>
-              </div>
-            </div>
-          )}
-        </nav>
-      </div>
-
-      <main className="flex-grow pt-20">
-        {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-blue-50 via-white to-blue-50 py-24 overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-200/30 via-transparent to-transparent"></div>
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-blue-100/40 via-transparent to-transparent"></div>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
-              <div className="mb-12 lg:mb-0">
-                <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight mb-6">
-                  Never Get Surprised By Hidden Car Problems Again
-                </h1>
-                <p className="text-xl text-gray-600 mb-8">
-                  Upload the car's service history and get instant insights to buy smarter and avoid hidden surprises.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-full font-medium flex items-center justify-center transition-all shadow-md hover:shadow-lg">
-                    Try It Now <ArrowRight size={18} className="ml-2" />
+                {/* Try It Now Button */}
+                <div className="hidden md:block">
+                  <button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-2 rounded-full font-medium transition-all shadow-md hover:shadow-lg">
+                    Try It Now
                   </button>
-                  <button className="border border-gray-300 hover:border-blue-500 bg-white/50 backdrop-blur-sm text-gray-700 hover:text-blue-600 px-6 py-3 rounded-full font-medium transition-all hover:shadow-md">
-                    Learn More
+                </div>
+
+                {/* Mobile menu button */}
+                <div className="md:hidden flex items-center">
+                  <button
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    className="text-gray-700 hover:text-blue-800 focus:outline-none"
+                  >
+                    {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
                   </button>
                 </div>
               </div>
-              <div className="relative">
-                <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-xl p-6 max-w-md mx-auto animate-float">
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center mb-6">
-                    <Upload size={48} className="mx-auto mb-4 text-blue-600" />
-                    <p className="text-gray-600">Drop your service history here</p>
-                  </div>
-                  <div className="bg-blue-50 rounded-lg p-4 mb-4">
-                    <div className="flex items-start">
-                      <FileText size={20} className="text-blue-600 mr-3 mt-1 flex-shrink-0" />
-                      <div>
-                        <h3 className="font-medium text-gray-900">Service History Analysis</h3>
-                        <p className="text-sm text-gray-600">Regular maintenance detected. Last oil change at 36,071 km.</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="bg-green-50 rounded-lg p-4">
-                    <div className="flex items-start">
-                      <BarChart size={20} className="text-green-600 mr-3 mt-1 flex-shrink-0" />
-                      <div>
-                        <h3 className="font-medium text-gray-900">Cost Estimation</h3>
-                        <p className="text-sm text-gray-600">Upcoming maintenance: ~$320 in the next 6 months</p>
-                      </div>
+            </div>
+
+            {/* Mobile Navigation */}
+            {isMenuOpen && (
+              <div className="md:hidden backdrop-blur-md rounded-xl mt-2 shadow-lg mx-4 border border-white/20 fixed top-20 left-0 right-0 z-50">
+                <div className="px-4 pt-2 pb-3 space-y-2">
+                  <Link
+                    href="#features"
+                    className="block px-3 py-2 text-gray-700 hover:text-blue-800 hover:bg-blue-50/50 rounded-md"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Features
+                  </Link>
+                  <Link
+                    href="#how-it-works"
+                    className="block px-3 py-2 text-gray-700 hover:text-blue-800 hover:bg-blue-50/50 rounded-md"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    How It Works
+                  </Link>
+                  <Link
+                    href="#contact"
+                    className="block px-3 py-2 text-gray-700 hover:text-blue-800 hover:bg-blue-50/50 rounded-md"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Contact
+                  </Link>
+                  <button
+                    className="w-full text-left px-3 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full transition-all shadow-md"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Try It Now
+                  </button>
+                </div>
+              </div>
+            )}
+          </nav>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-36 pb-24">
+          <div className="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
+            <div className="mb-12 lg:mb-0">
+              <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight mb-6">
+                Never Get Surprised By Hidden Car Problems Again
+              </h1>
+              <p className="text-xl text-gray-600 mb-8">
+                Upload the car's service history and get instant insights to buy smarter and avoid hidden surprises.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-full font-medium flex items-center justify-center transition-all shadow-md hover:shadow-lg">
+                  Try It Now <ArrowRight size={18} className="ml-2" />
+                </button>
+                <button className="border border-gray-300 hover:border-blue-500 bg-white/50 backdrop-blur-sm text-gray-700 hover:text-blue-600 px-6 py-3 rounded-full font-medium transition-all hover:shadow-md">
+                  Learn More
+                </button>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-xl p-6 max-w-md mx-auto animate-float">
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center mb-6">
+                  <Upload size={48} className="mx-auto mb-4 text-blue-600" />
+                  <p className="text-gray-600">Drop your service history here</p>
+                </div>
+                <div className="bg-blue-50 rounded-lg p-4 mb-4">
+                  <div className="flex items-start">
+                    <FileText size={20} className="text-blue-600 mr-3 mt-1 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-medium text-gray-900">Service History Analysis</h3>
+                      <p className="text-sm text-gray-600">Regular maintenance detected. Last oil change at 36,071 km.</p>
                     </div>
                   </div>
                 </div>
-                {/* Decorative elements */}
-                <div className="absolute -z-10 top-1/2 right-0 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-                <div className="absolute -z-10 top-1/3 left-0 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
-                <div className="absolute -z-10 bottom-1/4 right-1/4 w-60 h-60 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+                <div className="bg-green-50 rounded-lg p-4">
+                  <div className="flex items-start">
+                    <BarChart size={20} className="text-green-600 mr-3 mt-1 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-medium text-gray-900">Cost Estimation</h3>
+                      <p className="text-sm text-gray-600">Upcoming maintenance: ~$320 in the next 6 months</p>
+                    </div>
+                  </div>
+                </div>
               </div>
+              {/* Decorative elements */}
+              <div className="absolute -z-10 top-1/2 right-0 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+              <div className="absolute -z-10 top-1/3 left-0 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+              <div className="absolute -z-10 bottom-1/4 right-1/4 w-60 h-60 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
+      <main className="flex-grow">
         {/* Features Section */}
         <section id="features" className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
