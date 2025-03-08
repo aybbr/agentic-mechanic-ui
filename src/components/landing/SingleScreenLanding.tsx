@@ -110,7 +110,7 @@ export function SingleScreenLanding() {
                 Buy Used Cars with Confidence, Avoid Costly Surprises
               </h1>
               <p className="text-xl text-gray-600 mb-8">
-                Upload any car's service history and instantly understand its true condition, future costs, and potential red flags. Make smarter buying decisions in minutes, not days.
+                Upload any car&apos;s service history and instantly understand its true condition, future costs, and potential red flags. Make smarter buying decisions in minutes, not days.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
@@ -169,7 +169,7 @@ export function SingleScreenLanding() {
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">Make Informed Decisions, Avoid Costly Mistakes</h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Don't rely on guesswork or seller promises. Get data-driven insights about any used car's true condition and future costs.
+                Don&apos;t rely on guesswork or seller promises. Get data-driven insights about any used car&apos;s true condition and future costs.
               </p>
             </div>
 
@@ -206,7 +206,7 @@ export function SingleScreenLanding() {
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3">Smart Cost Predictions</h3>
                 <p className="text-gray-600 mb-4">
-                  Know exactly what you're getting into with accurate maintenance and repair cost forecasts based on the car's actual history and condition.
+                  Know exactly what you&apos;re getting into with accurate maintenance and repair cost forecasts based on the car&apos;s actual history and condition.
                 </p>
                 <ul className="space-y-2">
                   <li className="flex items-start">
