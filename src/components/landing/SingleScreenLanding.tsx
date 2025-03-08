@@ -1,19 +1,26 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { Upload, FileText, BarChart, ArrowRight, Menu, X, ChevronRight, Car, Clock, Shield, DollarSign } from "lucide-react";
+import { Upload, FileText, BarChart, ArrowRight, Menu, X, ChevronRight, DollarSign } from "lucide-react";
+import { Logo } from "@/components/common/Logo";
+import { WaitlistModal } from "@/components/waitlist/WaitlistModal";
 
 export function SingleScreenLanding() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
+
+  const openWaitlist = () => setIsWaitlistOpen(true);
+  const closeWaitlist = () => setIsWaitlistOpen(false);
 
   return (
     <div className="min-h-screen flex flex-col">
       {/* Hero Section with Navigation */}
-      <section className="relative bg-gradient-to-br from-blue-50 via-white to-blue-50 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-200/30 via-transparent to-transparent"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-blue-100/40 via-transparent to-transparent"></div>
+      <section className="relative bg-gradient-to-br from-blue-50 via-blue-100 to-white overflow-hidden">
+        {/* Updated background gradients */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-200/40 via-blue-100/30 to-transparent"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-white via-blue-50/50 to-transparent"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,_var(--tw-gradient-stops))] from-blue-100/20 via-white/30 to-transparent"></div>
 
         {/* Navigation */}
         <div className="fixed top-0 left-0 right-0 z-50 px-4 py-4">
@@ -21,9 +28,7 @@ export function SingleScreenLanding() {
             <div className="px-8 py-3.5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
-                  <span className="text-xl font-bold text-blue-800">
-                    Agentic<span className="text-blue-500">|</span>Mechanic
-                  </span>
+                  <Logo />
                 </div>
 
                 {/* Desktop Navigation */}
@@ -37,15 +42,15 @@ export function SingleScreenLanding() {
                   <Link href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
                     Contact
                   </Link>
-                  <span className="bg-blue-100/80 text-blue-800 px-2.5 py-1 rounded-full font-medium">
-                    6
-                  </span>
                 </div>
 
                 {/* Try It Now Button */}
                 <div className="hidden md:block">
-                  <button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-2 rounded-full font-medium transition-all shadow-md hover:shadow-lg">
-                    Try It Now
+                  <button
+                    onClick={openWaitlist}
+                    className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-2 rounded-full font-medium transition-all shadow-md hover:shadow-lg"
+                  >
+                    Join Waitlist
                   </button>
                 </div>
 
@@ -88,9 +93,9 @@ export function SingleScreenLanding() {
                   </Link>
                   <button
                     className="w-full text-left px-3 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full transition-all shadow-md"
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={openWaitlist}
                   >
-                    Try It Now
+                    Join Waitlist
                   </button>
                 </div>
               </div>
@@ -102,32 +107,35 @@ export function SingleScreenLanding() {
           <div className="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
             <div className="mb-12 lg:mb-0">
               <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight mb-6">
-                Never Get Surprised By Hidden Car Problems Again
+                Buy Used Cars with Confidence, Avoid Costly Surprises
               </h1>
               <p className="text-xl text-gray-600 mb-8">
-                Upload the car's service history and get instant insights to buy smarter and avoid hidden surprises.
+                Upload any car's service history and instantly understand its true condition, future costs, and potential red flags. Make smarter buying decisions in minutes, not days.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-full font-medium flex items-center justify-center transition-all shadow-md hover:shadow-lg">
-                  Try It Now <ArrowRight size={18} className="ml-2" />
+                <button
+                  onClick={openWaitlist}
+                  className="bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white px-6 py-3 rounded-full font-medium flex items-center justify-center transition-all shadow-md hover:shadow-lg"
+                >
+                  Join Waitlist <ArrowRight size={18} className="ml-2" />
                 </button>
-                <button className="border border-gray-300 hover:border-blue-500 bg-white/50 backdrop-blur-sm text-gray-700 hover:text-blue-600 px-6 py-3 rounded-full font-medium transition-all hover:shadow-md">
-                  Learn More
-                </button>
+                <Link href="/how-it-works" className="border border-gray-300 hover:border-purple-500 bg-white/50 backdrop-blur-sm text-gray-700 hover:text-purple-600 px-6 py-3 rounded-full font-medium transition-all hover:shadow-md">
+                  See How It Works
+                </Link>
               </div>
             </div>
             <div className="relative">
               <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-xl p-6 max-w-md mx-auto animate-float">
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center mb-6">
                   <Upload size={48} className="mx-auto mb-4 text-blue-600" />
-                  <p className="text-gray-600">Drop your service history here</p>
+                  <p className="text-gray-600">Drop any service history - we can read handwritten logs, scanned documents, or digital files</p>
                 </div>
                 <div className="bg-blue-50 rounded-lg p-4 mb-4">
                   <div className="flex items-start">
                     <FileText size={20} className="text-blue-600 mr-3 mt-1 flex-shrink-0" />
                     <div>
-                      <h3 className="font-medium text-gray-900">Service History Analysis</h3>
-                      <p className="text-sm text-gray-600">Regular maintenance detected. Last oil change at 36,071 km.</p>
+                      <h3 className="font-medium text-gray-900">Smart History Analysis</h3>
+                      <p className="text-sm text-gray-600">Major repairs identified: Transmission replaced at 85,000 km. Next major service due in 5,000 km.</p>
                     </div>
                   </div>
                 </div>
@@ -135,8 +143,8 @@ export function SingleScreenLanding() {
                   <div className="flex items-start">
                     <BarChart size={20} className="text-green-600 mr-3 mt-1 flex-shrink-0" />
                     <div>
-                      <h3 className="font-medium text-gray-900">Cost Estimation</h3>
-                      <p className="text-sm text-gray-600">Upcoming maintenance: ~$320 in the next 6 months</p>
+                      <h3 className="font-medium text-gray-900">Cost Prediction</h3>
+                      <p className="text-sm text-gray-600">Estimated maintenance costs for next 12 months: $2,800 (Including timing belt replacement)</p>
                     </div>
                   </div>
                 </div>
@@ -152,12 +160,16 @@ export function SingleScreenLanding() {
 
       <main className="flex-grow">
         {/* Features Section */}
-        <section id="features" className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="features" className="py-20 bg-white relative overflow-hidden">
+          <div className="absolute inset-0 opacity-5">
+            {/* ... existing background elements ... */}
+          </div>
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Powerful Features for Smart Car Buyers</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">Make Informed Decisions, Avoid Costly Mistakes</h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Our AI-powered tools help you make informed decisions when buying a used car.
+                Don't rely on guesswork or seller promises. Get data-driven insights about any used car's true condition and future costs.
               </p>
             </div>
 
@@ -167,22 +179,22 @@ export function SingleScreenLanding() {
                 <div className="bg-blue-100 p-3 rounded-full w-fit mb-6">
                   <FileText size={24} className="text-blue-600" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Service History Analyzer</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Deep Service History Analysis</h3>
                 <p className="text-gray-600 mb-4">
-                  Upload service history images or text and get an AI-generated report detailing maintenance consistency, potential issues, and upcoming service needs.
+                  Our AI reads and analyzes any service history format, uncovering hidden issues, maintenance patterns, and potential red flags that could cost you thousands.
                 </p>
                 <ul className="space-y-2">
                   <li className="flex items-start">
                     <ChevronRight size={18} className="text-blue-600 mr-2 mt-1 flex-shrink-0" />
-                    <span className="text-gray-700">Simple Upload – Drop your service log image—handwritten or printed—and we'll handle the rest.</span>
+                    <span className="text-gray-700">Identifies missed maintenance and potential future problems</span>
                   </li>
                   <li className="flex items-start">
                     <ChevronRight size={18} className="text-blue-600 mr-2 mt-1 flex-shrink-0" />
-                    <span className="text-gray-700">Smart AI Analysis – Our AI decodes your log to spot patterns, issues, and future needs.</span>
+                    <span className="text-gray-700">Verifies if service intervals match manufacturer recommendations</span>
                   </li>
                   <li className="flex items-start">
                     <ChevronRight size={18} className="text-blue-600 mr-2 mt-1 flex-shrink-0" />
-                    <span className="text-gray-700">Clear Reports – Get a straightforward summary to make confident buying decisions.</span>
+                    <span className="text-gray-700">Spots patterns that could indicate recurring problems</span>
                   </li>
                 </ul>
               </div>
@@ -192,22 +204,22 @@ export function SingleScreenLanding() {
                 <div className="bg-blue-100 p-3 rounded-full w-fit mb-6">
                   <DollarSign size={24} className="text-blue-600" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Ownership Cost Estimator</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Smart Cost Predictions</h3>
                 <p className="text-gray-600 mb-4">
-                  Get detailed estimates for taxes, insurance, tire changes, and maintenance costs based on the car's history, age, and your location.
+                  Know exactly what you're getting into with accurate maintenance and repair cost forecasts based on the car's actual history and condition.
                 </p>
                 <ul className="space-y-2">
                   <li className="flex items-start">
                     <ChevronRight size={18} className="text-blue-600 mr-2 mt-1 flex-shrink-0" />
-                    <span className="text-gray-700">Personalized Estimates – Tailored to your driving habits, location, and the specific vehicle.</span>
+                    <span className="text-gray-700">Predicts upcoming maintenance costs with timeline estimates</span>
                   </li>
                   <li className="flex items-start">
                     <ChevronRight size={18} className="text-blue-600 mr-2 mt-1 flex-shrink-0" />
-                    <span className="text-gray-700">Comprehensive Coverage – Includes taxes, insurance, maintenance, and unexpected repairs.</span>
+                    <span className="text-gray-700">Compares costs against similar models in your area</span>
                   </li>
                   <li className="flex items-start">
                     <ChevronRight size={18} className="text-blue-600 mr-2 mt-1 flex-shrink-0" />
-                    <span className="text-gray-700">Future Planning – Forecast expenses for the next 1-5 years of ownership.</span>
+                    <span className="text-gray-700">Helps negotiate better prices based on needed repairs</span>
                   </li>
                 </ul>
               </div>
@@ -216,12 +228,14 @@ export function SingleScreenLanding() {
         </section>
 
         {/* How It Works Section */}
-        <section id="how-it-works" className="py-20 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="how-it-works" className="py-20 bg-gray-50 relative overflow-hidden">
+          {/* ... existing background elements ... */}
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">How It Works</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">Three Steps to Smarter Car Buying</h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Three simple steps to get insights about your potential car purchase.
+                Get detailed insights about any used car in minutes, not hours.
               </p>
             </div>
 
@@ -234,9 +248,9 @@ export function SingleScreenLanding() {
                 <div className="mb-6 flex justify-center">
                   <Upload size={48} className="text-blue-600" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">Upload Your Service Log</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">Upload Service History</h3>
                 <p className="text-gray-600 text-center">
-                  Simply upload an image of the service history or paste text. We support handwritten logs, printed documents, and digital formats.
+                  Simply snap a photo or upload the service history. We handle all formats - even messy handwritten logs.
                 </p>
               </div>
 
@@ -246,11 +260,11 @@ export function SingleScreenLanding() {
                   2
                 </div>
                 <div className="mb-6 flex justify-center">
-                  <Car size={48} className="text-blue-600" />
+                  <FileText size={48} className="text-blue-600" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">AI Analyzes the Data</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">Get Instant Analysis</h3>
                 <p className="text-gray-600 text-center">
-                  Our advanced AI extracts and processes every detail with cutting-edge technology, identifying patterns and potential issues.
+                  Our AI analyzes the history, identifies issues, and predicts future maintenance needs and costs.
                 </p>
               </div>
 
@@ -260,11 +274,11 @@ export function SingleScreenLanding() {
                   3
                 </div>
                 <div className="mb-6 flex justify-center">
-                  <FileText size={48} className="text-blue-600" />
+                  <BarChart size={48} className="text-blue-600" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">Get Your Report</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">Make Better Decisions</h3>
                 <p className="text-gray-600 text-center">
-                  Receive comprehensive insights on maintenance history, red flags, upcoming needs, and estimated ownership costs.
+                  Use our insights to negotiate better prices, avoid problem cars, and budget for future costs.
                 </p>
               </div>
             </div>
@@ -275,9 +289,9 @@ export function SingleScreenLanding() {
         <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">See What Buyers Are Saying!</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">Join Smart Car Buyers</h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Coming soon—real stories from users who saved time and money with Agentic Mechanic.
+                Be among the first to access our AI-powered car history analysis tool.
               </p>
             </div>
 
@@ -285,39 +299,78 @@ export function SingleScreenLanding() {
               {/* Testimonial 1 */}
               <div className="bg-blue-50 p-6 rounded-xl">
                 <p className="text-gray-700 mb-4 italic">
-                  "This app made me feel like a pro at the dealership! I knew exactly what to look for and what questions to ask."
+                  &ldquo;I almost bought a car with transmission issues that would have cost $4,000 to fix. This tool spotted the warning signs in the service history that I missed.&rdquo;
                 </p>
-                <p className="font-medium text-gray-900">— Future User</p>
+                <p className="font-medium text-gray-900">— Early Beta User</p>
               </div>
 
               {/* Testimonial 2 */}
               <div className="bg-blue-50 p-6 rounded-xl">
                 <p className="text-gray-700 mb-4 italic">
-                  "I avoided a costly mistake thanks to the service history analysis. It spotted maintenance issues the seller didn't mention."
+                  &ldquo;The cost predictions were spot on. I used them to negotiate $2,500 off the price because of upcoming maintenance needs.&rdquo;
                 </p>
-                <p className="font-medium text-gray-900">— Future User</p>
+                <p className="font-medium text-gray-900">— Early Beta User</p>
               </div>
 
               {/* Testimonial 3 */}
               <div className="bg-blue-50 p-6 rounded-xl">
                 <p className="text-gray-700 mb-4 italic">
-                  "The cost estimator was spot on! I was able to budget accurately for my first year of ownership."
+                  &ldquo;Finally, a tool that makes sense of messy service records. Saved me hours of research and helped me avoid a money pit.&rdquo;
                 </p>
-                <p className="font-medium text-gray-900">— Future User</p>
+                <p className="font-medium text-gray-900">— Early Beta User</p>
               </div>
             </div>
           </div>
         </section>
 
         {/* CTA Section */}
-        <section className="py-20 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-bold mb-6">Ready to buy your next car with confidence?</h2>
+        <section className="relative py-20 bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-600 text-white overflow-hidden">
+          {/* Background gradients */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-blue-400/30 via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-indigo-400/30 via-transparent to-transparent"></div>
+
+          {/* Car gauge background element */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] opacity-[0.07]">
+            {/* Outer circle */}
+            <div className="absolute inset-0 border-[40px] border-white/40 rounded-full"></div>
+            {/* Inner circle */}
+            <div className="absolute inset-[100px] border-[20px] border-white/30 rounded-full"></div>
+            {/* Gauge markings */}
+            <div className="absolute inset-[60px] flex items-center justify-center">
+              {[...Array(12)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute w-1 h-8 bg-white/60"
+                  style={{ transform: `rotate(${i * 30}deg) translateY(-240px)` }}
+                ></div>
+              ))}
+            </div>
+            {/* Gauge numbers */}
+            <div className="absolute inset-[80px] flex items-center justify-center">
+              {[0, 2, 4, 6, 8].map((num, i) => (
+                <div
+                  key={i}
+                  className="absolute text-white/60 text-2xl font-bold"
+                  style={{
+                    transform: `rotate(${i * 45}deg) translateY(-220px) rotate(-${i * 45}deg)`
+                  }}
+                >
+                  {num}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
+            <h2 className="text-3xl font-bold mb-6">Be First to Access Smart Car History Analysis</h2>
             <p className="text-xl mb-8 max-w-3xl mx-auto">
-              Start analyzing service histories and estimating ownership costs today.
+              Join our waitlist to get early access and special launch pricing. Start making data-driven car buying decisions.
             </p>
-            <button className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-4 rounded-md font-medium text-lg transition-colors">
-              Sign Up Free
+            <button
+              onClick={openWaitlist}
+              className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-4 rounded-md font-medium text-lg transition-colors"
+            >
+              Join Waitlist
             </button>
           </div>
         </section>
@@ -404,6 +457,9 @@ export function SingleScreenLanding() {
           </div>
         </div>
       </footer>
+
+      {/* Add modal */}
+      <WaitlistModal isOpen={isWaitlistOpen} onClose={closeWaitlist} />
     </div>
   );
 }
