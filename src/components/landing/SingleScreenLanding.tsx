@@ -107,10 +107,11 @@ export function SingleScreenLanding() {
           <div className="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
             <div className="mb-12 lg:mb-0">
               <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight mb-6">
-                Buy Used Cars with Confidence, Avoid Costly Surprises
+              Discover the True Cost of Your Next Car.
               </h1>
               <p className="text-xl text-gray-600 mb-8">
-                Upload any car&apos;s service history and instantly understand its true condition, future costs, and potential red flags. Make smarter buying decisions in minutes, not days.
+              Agentic Mechanic combines your driving habits, location, and car details to reveal every expense—from taxes to tires.
+                Upload any car&apos;s service history and instantly understand its true condition and uncover future costs.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
