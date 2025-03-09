@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Upload, FileText, BarChart, ArrowRight, Menu, X, ChevronRight, DollarSign } from "lucide-react";
 import { Logo } from "@/components/common/Logo";
 import { WaitlistModal } from "@/components/waitlist/WaitlistModal";
+import { PricingSection } from "../pricing/PricingSection";
 
 export function SingleScreenLanding() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -38,6 +39,9 @@ export function SingleScreenLanding() {
                   </Link>
                   <Link href="#how-it-works" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
                     How It Works
+                  </Link>
+                  <Link href="#pricing" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+                    Pricing
                   </Link>
                   <Link href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
                     Contact
@@ -286,6 +290,8 @@ export function SingleScreenLanding() {
           </div>
         </section>
 
+        <PricingSection openWaitlist={openWaitlist} />
+
         {/* Testimonials Section */}
         <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -367,12 +373,6 @@ export function SingleScreenLanding() {
             <p className="text-xl mb-8 max-w-3xl mx-auto">
               Join our waitlist to get early access and special launch pricing. Start making data-driven car buying decisions.
             </p>
-            <button
-              onClick={openWaitlist}
-              className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-4 rounded-md font-medium text-lg transition-colors"
-            >
-              Join Waitlist
-            </button>
           </div>
         </section>
       </main>
