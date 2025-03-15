@@ -7,6 +7,8 @@ const formSchema = z.object({
   lastName: z.string().min(2).max(50),
   email: z.string().email(),
   country: z.string().min(2),
+  carOwnership: z.enum(["first_time", "current_owner", "previous_owner"]),
+  interestedIn: z.array(z.string()).min(1),
 });
 
 // Initialize Google Sheets
@@ -29,10 +31,13 @@ export async function POST(req: Request) {
     // Add timestamp
     const timestamp = new Date().toISOString();
 
+    // Format the interests array as a comma-separated string
+    const interests = validatedData.interestedIn.join(", ");
+
     // Append to Google Sheet
     await sheets.spreadsheets.values.append({
       spreadsheetId: SPREADSHEET_ID,
-      range: 'Waitlist!A:E', // Assumes sheet is named "Waitlist" with columns A-E
+      range: 'Waitlist!A:G', // Updated range to include new columns
       valueInputOption: 'RAW',
       requestBody: {
         values: [[
@@ -41,6 +46,8 @@ export async function POST(req: Request) {
           validatedData.lastName,
           validatedData.email,
           validatedData.country,
+          validatedData.carOwnership,
+          interests,
         ]],
       },
     });

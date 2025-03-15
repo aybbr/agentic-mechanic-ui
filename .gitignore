@@ -45,6 +45,7 @@ package-lock.json
 
 # cursor
 .cursorrules
+.cursor/rules
 
 #tailwind
 tailwind.config.ts

@@ -5,11 +5,14 @@ import Link from "next/link";
 import { Upload, FileText, BarChart, ArrowRight, Menu, X, ChevronRight, DollarSign } from "lucide-react";
 import { Logo } from "@/components/common/Logo";
 import { WaitlistModal } from "@/components/waitlist/WaitlistModal";
+import { useAuth } from "@/components/auth/AuthProvider";
+import { LogoutButton } from "@/components/auth/LogoutButton";
 //import { PricingSection } from "../pricing/PricingSection";
 
 export function SingleScreenLanding() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
+  const { isAuthenticated, isLoading } = useAuth();
 
   const openWaitlist = () => setIsWaitlistOpen(true);
   const closeWaitlist = () => setIsWaitlistOpen(false);
@@ -48,14 +51,36 @@ export function SingleScreenLanding() {
                   </Link>
                 </div>
 
-                {/* Try It Now Button */}
-                <div className="hidden md:block">
-                  <button
-                    onClick={openWaitlist}
-                    className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-2 rounded-full font-medium transition-all shadow-md hover:shadow-lg"
-                  >
-                    Join Waitlist
-                  </button>
+                {/* Auth Buttons */}
+                <div className="hidden md:flex items-center space-x-4">
+                  {isLoading ? (
+                    <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                  ) : isAuthenticated ? (
+                    <>
+                      <Link
+                        href="/dashboard"
+                        className="text-blue-600 hover:text-blue-800 font-medium"
+                      >
+                        Dashboard
+                      </Link>
+                      <LogoutButton />
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        href="/auth/login"
+                        className="text-blue-600 hover:text-blue-800 font-medium"
+                      >
+                        Log in
+                      </Link>
+                      <Link
+                        href="/auth/signup"
+                        className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-2 rounded-full font-medium transition-all shadow-md hover:shadow-lg"
+                      >
+                        Sign up
+                      </Link>
+                    </>
+                  )}
                 </div>
 
                 {/* Mobile menu button */}
@@ -95,8 +120,46 @@ export function SingleScreenLanding() {
                   >
                     Contact
                   </Link>
+
+                  {/* Mobile Auth Links */}
+                  {isLoading ? (
+                    <div className="flex justify-center py-2">
+                      <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                  ) : isAuthenticated ? (
+                    <>
+                      <Link
+                        href="/dashboard"
+                        className="block px-3 py-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50/50 rounded-md"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Dashboard
+                      </Link>
+                      <div className="px-3 py-2">
+                        <LogoutButton className="text-red-600 hover:text-red-800 font-medium" />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        href="/auth/login"
+                        className="block px-3 py-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50/50 rounded-md"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Log in
+                      </Link>
+                      <Link
+                        href="/auth/signup"
+                        className="block px-3 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-md"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Sign up
+                      </Link>
+                    </>
+                  )}
+
                   <button
-                    className="w-full text-left px-3 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full transition-all shadow-md"
+                    className="w-full text-left px-3 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white rounded-full transition-all shadow-md"
                     onClick={openWaitlist}
                   >
                     Join Waitlist

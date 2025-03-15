@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 interface LogoProps {
-  href?: string;
+  href?: string | null;
 }
 
 export function Logo({ href = "/" }: LogoProps) {
@@ -19,7 +19,8 @@ export function Logo({ href = "/" }: LogoProps) {
     </div>
   );
 
-  if (href) {
+  // Only render Link if href is a non-empty string
+  if (href && typeof href === 'string') {
     return (
       <Link href={href} className="hover:opacity-90 transition-opacity">
         <LogoContent />
