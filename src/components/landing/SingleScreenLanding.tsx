@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Upload, FileText, BarChart, ArrowRight, Menu, X, ChevronRight, DollarSign } from "lucide-react";
 import { Logo } from "@/components/common/Logo";
 import { WaitlistModal } from "@/components/waitlist/WaitlistModal";
+//import { PricingSection } from "../pricing/PricingSection";
 
 export function SingleScreenLanding() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -39,6 +40,9 @@ export function SingleScreenLanding() {
                   <Link href="#how-it-works" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
                     How It Works
                   </Link>
+                  {/* <Link href="#pricing" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+                    Pricing
+                  </Link> */}
                   <Link href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
                     Contact
                   </Link>
@@ -107,10 +111,11 @@ export function SingleScreenLanding() {
           <div className="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
             <div className="mb-12 lg:mb-0">
               <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight mb-6">
-                Buy Used Cars with Confidence, Avoid Costly Surprises
+              Discover the True Cost of Your Next Car.
               </h1>
               <p className="text-xl text-gray-600 mb-8">
-                Upload any car&apos;s service history and instantly understand its true condition, future costs, and potential red flags. Make smarter buying decisions in minutes, not days.
+              Agentic Mechanic combines your driving habits, location, and car details to reveal every expense—from taxes to tires.
+                Upload any car&apos;s service history and instantly understand its true condition and uncover future costs.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
@@ -285,6 +290,8 @@ export function SingleScreenLanding() {
           </div>
         </section>
 
+        {/* <PricingSection openWaitlist={openWaitlist} /> */}
+
         {/* Testimonials Section */}
         <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -366,12 +373,6 @@ export function SingleScreenLanding() {
             <p className="text-xl mb-8 max-w-3xl mx-auto">
               Join our waitlist to get early access and special launch pricing. Start making data-driven car buying decisions.
             </p>
-            <button
-              onClick={openWaitlist}
-              className="bg-white text-blue-600 hover:bg-blue-50 px-8 py-4 rounded-md font-medium text-lg transition-colors"
-            >
-              Join Waitlist
-            </button>
           </div>
         </section>
       </main>
