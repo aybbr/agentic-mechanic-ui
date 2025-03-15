@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Upload, FileText, BarChart, ArrowRight, Menu, X, ChevronRight, DollarSign } from "lucide-react";
 import { Logo } from "@/components/common/Logo";
 import { WaitlistModal } from "@/components/waitlist/WaitlistModal";
-import { PricingSection } from "../pricing/PricingSection";
+//import { PricingSection } from "../pricing/PricingSection";
 
 export function SingleScreenLanding() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -40,9 +40,9 @@ export function SingleScreenLanding() {
                   <Link href="#how-it-works" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
                     How It Works
                   </Link>
-                  <Link href="#pricing" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+                  {/* <Link href="#pricing" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
                     Pricing
-                  </Link>
+                  </Link> */}
                   <Link href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
                     Contact
                   </Link>
@@ -290,7 +290,7 @@ export function SingleScreenLanding() {
           </div>
         </section>
 
-        <PricingSection openWaitlist={openWaitlist} />
+        {/* <PricingSection openWaitlist={openWaitlist} /> */}
 
         {/* Testimonials Section */}
         <section className="py-20 bg-white">
