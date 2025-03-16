@@ -2,6 +2,9 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
+  // Check if the path is related to auth (login, signup, reset-password, update-password)
+  const isAuthRoute = request.nextUrl.pathname.startsWith('/auth/')
+
   let supabaseResponse = NextResponse.next({
     request,
   })
@@ -40,9 +43,11 @@ export async function middleware(request: NextRequest) {
   }
 
   // Redirect unauthenticated users to landing page when they try to access protected routes
+  // But allow access to auth routes like update-password without authentication
   if (
     !user &&
-    request.nextUrl.pathname.startsWith('/dashboard')
+    request.nextUrl.pathname.startsWith('/dashboard') &&
+    !isAuthRoute
   ) {
     const url = request.nextUrl.clone()
     url.pathname = '/'
