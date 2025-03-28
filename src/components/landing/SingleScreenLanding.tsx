@@ -7,7 +7,12 @@ import { Logo } from "@/components/common/Logo";
 import { WaitlistModal } from "@/components/waitlist/WaitlistModal";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { LogoutButton } from "@/components/auth/LogoutButton";
-//import { PricingSection } from "../pricing/PricingSection";
+import { theme, getTextColor, getBgColor } from '@/styles/theme';
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/card';
+import { Section, SectionHeader } from '@/components/ui/Section';
+import { cn } from '@/lib/utils';
+import Image from "next/image";
 
 export function SingleScreenLanding() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,15 +25,33 @@ export function SingleScreenLanding() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Hero Section with Navigation */}
-      <section className="relative bg-gradient-to-br from-blue-50 via-blue-100 to-white overflow-hidden">
-        {/* Updated background gradients */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-200/40 via-blue-100/30 to-transparent"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-white via-blue-50/50 to-transparent"></div>
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,_var(--tw-gradient-stops))] from-blue-100/20 via-white/30 to-transparent"></div>
+      <Section
+        gradient="hero"
+        gradientVariant="primary"
+        className="overflow-hidden"
+      >
+        {/* Background gradients */}
+        <div className={cn(
+          "absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]",
+          theme.gradients.hero.overlay1
+        )}></div>
+        <div className={cn(
+          "absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))]",
+          theme.gradients.hero.overlay2
+        )}></div>
+        <div className={cn(
+          "absolute inset-0 bg-[linear-gradient(120deg,_var(--tw-gradient-stops))]",
+          theme.gradients.hero.overlay3
+        )}></div>
 
         {/* Navigation */}
         <div className="fixed top-0 left-0 right-0 z-50 px-4 py-4">
-          <nav className="max-w-3xl mx-auto backdrop-blur-md shadow-lg rounded-full border border-white/20">
+          <nav className={cn(
+            "max-w-3xl mx-auto rounded-full",
+            theme.backgrounds.glass,
+            theme.shadows.lg,
+            theme.borders.light
+          )}>
             <div className="px-8 py-3.5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
@@ -37,16 +60,25 @@ export function SingleScreenLanding() {
 
                 {/* Desktop Navigation */}
                 <div className="hidden md:flex items-center space-x-8">
-                  <Link href="#features" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+                  <Link href="#features" className={cn(
+                    "font-medium transition-colors",
+                    getTextColor('gray', 700),
+                    "hover:text-blue-600"
+                  )}>
                     Features
                   </Link>
-                  <Link href="#how-it-works" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+                  <Link href="#how-it-works" className={cn(
+                    "font-medium transition-colors",
+                    getTextColor('gray', 700),
+                    "hover:text-blue-600"
+                  )}>
                     How It Works
                   </Link>
-                  {/* <Link href="#pricing" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
-                    Pricing
-                  </Link> */}
-                  <Link href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+                  <Link href="#contact" className={cn(
+                    "font-medium transition-colors",
+                    getTextColor('gray', 700),
+                    "hover:text-blue-600"
+                  )}>
                     Contact
                   </Link>
                 </div>
@@ -59,7 +91,11 @@ export function SingleScreenLanding() {
                     <>
                       <Link
                         href="/dashboard"
-                        className="text-blue-600 hover:text-blue-800 font-medium"
+                        className={cn(
+                          "font-medium",
+                          getTextColor('primary', 600),
+                          "hover:text-blue-800"
+                        )}
                       >
                         Dashboard
                       </Link>
@@ -69,16 +105,17 @@ export function SingleScreenLanding() {
                     <>
                       <Link
                         href="/auth/login"
-                        className="text-blue-600 hover:text-blue-800 font-medium"
+                        className={cn(
+                          "font-medium",
+                          getTextColor('primary', 600),
+                          "hover:text-blue-800"
+                        )}
                       >
                         Log in
                       </Link>
-                      <Link
-                        href="/auth/signup"
-                        className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-2 rounded-full font-medium transition-all shadow-md hover:shadow-lg"
-                      >
+                      <Button variant="primary">
                         Sign up
-                      </Link>
+                      </Button>
                     </>
                   )}
                 </div>
@@ -87,7 +124,11 @@ export function SingleScreenLanding() {
                 <div className="md:hidden flex items-center">
                   <button
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    className="text-gray-700 hover:text-blue-800 focus:outline-none"
+                    className={cn(
+                      "focus:outline-none",
+                      getTextColor('gray', 700),
+                      "hover:text-blue-800"
+                    )}
                   >
                     {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
                   </button>
@@ -97,25 +138,42 @@ export function SingleScreenLanding() {
 
             {/* Mobile Navigation */}
             {isMenuOpen && (
-              <div className="md:hidden backdrop-blur-md rounded-xl mt-2 shadow-lg mx-4 border border-white/20 fixed top-20 left-0 right-0 z-50">
+              <div className={cn(
+                "md:hidden fixed top-20 left-0 right-0 z-50 mx-4 rounded-xl",
+                theme.backgrounds.glass,
+                theme.shadows.lg,
+                theme.borders.light
+              )}>
                 <div className="px-4 pt-2 pb-3 space-y-2">
                   <Link
                     href="#features"
-                    className="block px-3 py-2 text-gray-700 hover:text-blue-800 hover:bg-blue-50/50 rounded-md"
+                    className={cn(
+                      "block px-3 py-2 rounded-md",
+                      getTextColor('gray', 700),
+                      "hover:text-blue-800 hover:bg-blue-50/50"
+                    )}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Features
                   </Link>
                   <Link
                     href="#how-it-works"
-                    className="block px-3 py-2 text-gray-700 hover:text-blue-800 hover:bg-blue-50/50 rounded-md"
+                    className={cn(
+                      "block px-3 py-2 rounded-md",
+                      getTextColor('gray', 700),
+                      "hover:text-blue-800 hover:bg-blue-50/50"
+                    )}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     How It Works
                   </Link>
                   <Link
                     href="#contact"
-                    className="block px-3 py-2 text-gray-700 hover:text-blue-800 hover:bg-blue-50/50 rounded-md"
+                    className={cn(
+                      "block px-3 py-2 rounded-md",
+                      getTextColor('gray', 700),
+                      "hover:text-blue-800 hover:bg-blue-50/50"
+                    )}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Contact
@@ -130,7 +188,11 @@ export function SingleScreenLanding() {
                     <>
                       <Link
                         href="/dashboard"
-                        className="block px-3 py-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50/50 rounded-md"
+                        className={cn(
+                          "block px-3 py-2 rounded-md",
+                          getTextColor('primary', 600),
+                          "hover:text-blue-800 hover:bg-blue-50/50"
+                        )}
                         onClick={() => setIsMenuOpen(false)}
                       >
                         Dashboard
@@ -143,27 +205,35 @@ export function SingleScreenLanding() {
                     <>
                       <Link
                         href="/auth/login"
-                        className="block px-3 py-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50/50 rounded-md"
+                        className={cn(
+                          "block px-3 py-2 rounded-md",
+                          getTextColor('primary', 600),
+                          "hover:text-blue-800 hover:bg-blue-50/50"
+                        )}
                         onClick={() => setIsMenuOpen(false)}
                       >
                         Log in
                       </Link>
-                      <Link
-                        href="/auth/signup"
-                        className="block px-3 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-md"
+                      <Button
+                        variant="primary"
+                        className="w-full"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         Sign up
-                      </Link>
+                      </Button>
                     </>
                   )}
 
-                  <button
-                    className="w-full text-left px-3 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white rounded-full transition-all shadow-md"
-                    onClick={openWaitlist}
+                  <Button
+                    variant="secondary"
+                    className="w-full"
+                    onClick={() => {
+                      openWaitlist();
+                      setIsMenuOpen(false);
+                    }}
                   >
                     Join Waitlist
-                  </button>
+                  </Button>
                 </div>
               </div>
             )}
@@ -173,37 +243,53 @@ export function SingleScreenLanding() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-36 pb-24">
           <div className="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
             <div className="mb-12 lg:mb-0">
-              <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight mb-6">
-              Discover the True Cost of Your Next Car.
+              <h1 className={cn(
+                "text-4xl sm:text-5xl font-bold leading-tight mb-6",
+                getTextColor('gray', 900)
+              )}>
+                Discover the True Cost of Your Next Car.
               </h1>
-              <p className="text-xl text-gray-600 mb-8">
-              Agentic Mechanic combines your driving habits, location, and car details to reveal every expense—from taxes to tires.
+              <p className={cn(
+                "text-xl mb-8",
+                getTextColor('gray', 600)
+              )}>
+                Agentic Mechanic combines your driving habits, location, and car details to reveal every expense—from taxes to tires.
                 Upload any car&apos;s service history and instantly understand its true condition and uncover future costs.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button
+                <Button
+                  variant="secondary"
+                  size="lg"
                   onClick={openWaitlist}
-                  className="bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white px-6 py-3 rounded-full font-medium flex items-center justify-center transition-all shadow-md hover:shadow-lg"
+                  className="flex items-center justify-center"
                 >
                   Join Waitlist <ArrowRight size={18} className="ml-2" />
-                </button>
-                <Link href="/how-it-works" className="border border-gray-300 hover:border-purple-500 bg-white/50 backdrop-blur-sm text-gray-700 hover:text-purple-600 px-6 py-3 rounded-full font-medium transition-all hover:shadow-md">
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="backdrop-blur-sm"
+                >
                   See How It Works
-                </Link>
+                </Button>
               </div>
             </div>
             <div className="relative">
-              <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-xl p-6 max-w-md mx-auto animate-float">
+              <Card
+                variant="translucent"
+                shadow="lg"
+                className="max-w-md mx-auto animate-float"
+              >
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center mb-6">
-                  <Upload size={48} className="mx-auto mb-4 text-blue-600" />
-                  <p className="text-gray-600">Drop any service history - we can read handwritten logs, scanned documents, or digital files</p>
+                  <Upload size={48} className={cn("mx-auto mb-4", getTextColor('primary', 600))} />
+                  <p className={getTextColor('gray', 600)}>Drop any service history - we can read handwritten logs, scanned documents, or digital files</p>
                 </div>
                 <div className="bg-blue-50 rounded-lg p-4 mb-4">
                   <div className="flex items-start">
-                    <FileText size={20} className="text-blue-600 mr-3 mt-1 flex-shrink-0" />
+                    <FileText size={20} className={cn("mr-3 mt-1 flex-shrink-0", getTextColor('primary', 600))} />
                     <div>
-                      <h3 className="font-medium text-gray-900">Smart History Analysis</h3>
-                      <p className="text-sm text-gray-600">Major repairs identified: Transmission replaced at 85,000 km. Next major service due in 5,000 km.</p>
+                      <h3 className={cn("font-medium", getTextColor('gray', 900))}>Smart History Analysis</h3>
+                      <p className={cn("text-sm", getTextColor('gray', 600))}>Major repairs identified: Transmission replaced at 85,000 km. Next major service due in 5,000 km.</p>
                     </div>
                   </div>
                 </div>
@@ -211,12 +297,12 @@ export function SingleScreenLanding() {
                   <div className="flex items-start">
                     <BarChart size={20} className="text-green-600 mr-3 mt-1 flex-shrink-0" />
                     <div>
-                      <h3 className="font-medium text-gray-900">Cost Prediction</h3>
-                      <p className="text-sm text-gray-600">Estimated maintenance costs for next 12 months: $2,800 (Including timing belt replacement)</p>
+                      <h3 className={cn("font-medium", getTextColor('gray', 900))}>Cost Prediction</h3>
+                      <p className={cn("text-sm", getTextColor('gray', 600))}>Estimated maintenance costs for next 12 months: $2,800 (Including timing belt replacement)</p>
                     </div>
                   </div>
                 </div>
-              </div>
+              </Card>
               {/* Decorative elements */}
               <div className="absolute -z-10 top-1/2 right-0 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
               <div className="absolute -z-10 top-1/3 left-0 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
@@ -224,7 +310,7 @@ export function SingleScreenLanding() {
             </div>
           </div>
         </div>
-      </section>
+      </Section>
 
       <main className="flex-grow">
         {/* Features Section */}
@@ -237,17 +323,19 @@ export function SingleScreenLanding() {
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">Make Informed Decisions, Avoid Costly Mistakes</h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Don&apos;t rely on guesswork or seller promises. Get data-driven insights about any used car&apos;s true condition and future costs.
+                Don't rely on guesswork or seller promises. Get data-driven insights about any used car's true condition and future costs.
               </p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-8">
               {/* Service History Analyzer */}
-              <div className="bg-gradient-to-br from-blue-50 to-white p-8 rounded-xl shadow-sm border border-gray-100">
+              <div className="bg-blue-50 p-8 rounded-xl border border-blue-100">
                 <div className="bg-blue-100 p-3 rounded-full w-fit mb-6">
                   <FileText size={24} className="text-blue-600" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Deep Service History Analysis</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">
+                  Deep Service History Analysis
+                </h3>
                 <p className="text-gray-600 mb-4">
                   Our AI reads and analyzes any service history format, uncovering hidden issues, maintenance patterns, and potential red flags that could cost you thousands.
                 </p>
@@ -268,11 +356,13 @@ export function SingleScreenLanding() {
               </div>
 
               {/* Cost Estimator */}
-              <div className="bg-gradient-to-br from-blue-50 to-white p-8 rounded-xl shadow-sm border border-gray-100">
+              <div className="bg-blue-50 p-8 rounded-xl border border-blue-100">
                 <div className="bg-blue-100 p-3 rounded-full w-fit mb-6">
                   <DollarSign size={24} className="text-blue-600" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Smart Cost Predictions</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">
+                  Smart Cost Predictions
+                </h3>
                 <p className="text-gray-600 mb-4">
                   Know exactly what you&apos;re getting into with accurate maintenance and repair cost forecasts based on the car&apos;s actual history and condition.
                 </p>
@@ -352,8 +442,6 @@ export function SingleScreenLanding() {
             </div>
           </div>
         </section>
-
-        {/* <PricingSection openWaitlist={openWaitlist} /> */}
 
         {/* Testimonials Section */}
         <section className="py-20 bg-white">
@@ -436,6 +524,22 @@ export function SingleScreenLanding() {
             <p className="text-xl mb-8 max-w-3xl mx-auto">
               Join our waitlist to get early access and special launch pricing. Start making data-driven car buying decisions.
             </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                variant="secondary"
+                size="lg"
+                onClick={openWaitlist}
+              >
+                Join the Waitlist
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                See How It Works
+              </Button>
+            </div>
           </div>
         </section>
       </main>
