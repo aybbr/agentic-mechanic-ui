@@ -13,8 +13,8 @@ const formSchema = z.object({
   lastName: z.string().min(2, "Last name is too short").max(50),
   email: z.string().email("Invalid email address"),
   country: z.string().min(2, "Please select your country"),
-  carOwnership: z.enum(["first_time", "current_owner", "previous_owner"], {
-    required_error: "Please select your car ownership status",
+  carOwnership: z.string().refine((val) => ["first_time", "current_owner", "previous_owner"].includes(val), {
+    message: "Please select an option"
   }),
   interestedIn: z.array(z.string()).min(1, "Please select at least one interest"),
 });
@@ -125,7 +125,7 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                     onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                     className={`w-full rounded-lg border px-4 py-2.5 ${
                       errors.firstName ? "border-red-300" : "border-gray-300"
-                    } focus:border-purple-500 focus:ring-purple-500`}
+                    } focus:border-green-500 focus:ring-green-500 bg-white/70 backdrop-blur-sm`}
                   />
                   {errors.firstName && (
                     <p className="mt-2 text-sm text-red-600">{errors.firstName}</p>
@@ -143,7 +143,7 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                     onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                     className={`w-full rounded-lg border px-4 py-2.5 ${
                       errors.lastName ? "border-red-300" : "border-gray-300"
-                    } focus:border-purple-500 focus:ring-purple-500`}
+                    } focus:border-green-500 focus:ring-green-500 bg-white/70 backdrop-blur-sm`}
                   />
                   {errors.lastName && (
                     <p className="mt-2 text-sm text-red-600">{errors.lastName}</p>
@@ -162,7 +162,7 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className={`w-full rounded-lg border px-4 py-2.5 ${
                     errors.email ? "border-red-300" : "border-gray-300"
-                  } focus:border-purple-500 focus:ring-purple-500`}
+                  } focus:border-green-500 focus:ring-green-500 bg-white/70 backdrop-blur-sm`}
                 />
                 {errors.email && (
                   <p className="mt-2 text-sm text-red-600">{errors.email}</p>
@@ -179,7 +179,7 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                   onChange={(e) => setFormData({ ...formData, country: e.target.value })}
                   className={`w-full rounded-lg border px-4 py-2.5 ${
                     errors.country ? "border-red-300" : "border-gray-300"
-                  } focus:border-purple-500 focus:ring-purple-500`}
+                  } focus:border-green-500 focus:ring-green-500 bg-white/70 backdrop-blur-sm`}
                 >
                   <option value="">Select a country</option>
                   {countries.map((country: Country) => (
@@ -205,7 +205,7 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                       value="first_time"
                       checked={formData.carOwnership === "first_time"}
                       onChange={(e) => setFormData({ ...formData, carOwnership: e.target.value })}
-                      className="text-purple-600 focus:ring-purple-500 h-4 w-4"
+                      className="text-green-600 focus:ring-green-500 h-4 w-4"
                     />
                     <span className="ml-2 text-gray-700">First-time car buyer</span>
                   </label>
@@ -216,7 +216,7 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                       value="current_owner"
                       checked={formData.carOwnership === "current_owner"}
                       onChange={(e) => setFormData({ ...formData, carOwnership: e.target.value })}
-                      className="text-purple-600 focus:ring-purple-500 h-4 w-4"
+                      className="text-green-600 focus:ring-green-500 h-4 w-4"
                     />
                     <span className="ml-2 text-gray-700">Current car owner</span>
                   </label>
@@ -227,7 +227,7 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                       value="previous_owner"
                       checked={formData.carOwnership === "previous_owner"}
                       onChange={(e) => setFormData({ ...formData, carOwnership: e.target.value })}
-                      className="text-purple-600 focus:ring-purple-500 h-4 w-4"
+                      className="text-green-600 focus:ring-green-500 h-4 w-4"
                     />
                     <span className="ml-2 text-gray-700">Previous car owner</span>
                   </label>
@@ -249,7 +249,7 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                       value="service_history"
                       checked={formData.interestedIn.includes("service_history")}
                       onChange={(e) => handleCheckboxChange(e.target.value)}
-                      className="text-purple-600 focus:ring-purple-500 h-4 w-4 rounded"
+                      className="text-green-600 focus:ring-green-500 h-4 w-4 rounded"
                     />
                     <span className="ml-2 text-gray-700">Service history analysis</span>
                   </label>
@@ -260,7 +260,7 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                       value="cost_prediction"
                       checked={formData.interestedIn.includes("cost_prediction")}
                       onChange={(e) => handleCheckboxChange(e.target.value)}
-                      className="text-purple-600 focus:ring-purple-500 h-4 w-4 rounded"
+                      className="text-green-600 focus:ring-green-500 h-4 w-4 rounded"
                     />
                     <span className="ml-2 text-gray-700">Future cost predictions</span>
                   </label>
@@ -271,7 +271,7 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                       value="market_comparison"
                       checked={formData.interestedIn.includes("market_comparison")}
                       onChange={(e) => handleCheckboxChange(e.target.value)}
-                      className="text-purple-600 focus:ring-purple-500 h-4 w-4 rounded"
+                      className="text-green-600 focus:ring-green-500 h-4 w-4 rounded"
                     />
                     <span className="ml-2 text-gray-700">Market price comparison</span>
                   </label>
@@ -282,7 +282,7 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
                       value="negotiation"
                       checked={formData.interestedIn.includes("negotiation")}
                       onChange={(e) => handleCheckboxChange(e.target.value)}
-                      className="text-purple-600 focus:ring-purple-500 h-4 w-4 rounded"
+                      className="text-green-600 focus:ring-green-500 h-4 w-4 rounded"
                     />
                     <span className="ml-2 text-gray-700">Negotiation assistance</span>
                   </label>
@@ -296,9 +296,9 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="mt-8 w-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-200 mt-8"
             >
-              {isSubmitting ? "Joining..." : "Join Waitlist"}
+              {isSubmitting ? "Joining..." : "Join the Waitlist"}
             </button>
           </form>
         )}
