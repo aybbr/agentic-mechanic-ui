@@ -321,15 +321,15 @@ export function SingleScreenLanding() {
                   alt="Agentic Mechanic Hero"
                   width={800}
                   height={533}
-                  className="rounded-lg shadow-xl animate-float"
+                  className="rounded-lg mix-blend-multiply backdrop-blur-sm animate-float-gentle"
                   priority
                 />
               </div>
 
               {/* Decorative elements */}
-              <div className="absolute -z-10 top-1/2 right-0 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-              <div className="absolute -z-10 top-1/3 left-0 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
-              <div className="absolute -z-10 bottom-1/4 right-1/4 w-60 h-60 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+              <div className="absolute -z-10 top-1/2 right-0 w-72 h-72 bg-emerald-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+              <div className="absolute -z-10 top-1/3 left-0 w-72 h-72 bg-green-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+              <div className="absolute -z-10 bottom-1/4 right-1/4 w-60 h-60 bg-green-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
             </div>
           </div>
         </div>
