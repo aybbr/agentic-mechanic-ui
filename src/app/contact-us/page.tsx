@@ -4,7 +4,7 @@ import { Logo } from "@/components/common/Logo";
 
 export const metadata: Metadata = {
   title: "Contact Us | Agentic Mechanic",
-  description: "Get in touch with the Agentic Mechanic team. We're here to help with any questions or feedback.",
+  description: "Get in touch with the Agentic Mechanic team. We&apos;re here to help with any questions or feedback.",
 };
 
 export default function ContactUs() {
@@ -80,7 +80,7 @@ export default function ContactUs() {
               <div className="p-8 md:w-2/3">
                 <h1 className="text-3xl font-bold text-gray-900 mb-6">Get in Touch</h1>
                 <p className="text-gray-600 mb-8">
-                  Have a question, feedback, or need assistance? Fill out the form below and we'll get back to you as soon as possible.
+                  Have a question, feedback, or need assistance? Fill out the form below and we&apos;ll get back to you as soon as possible.
                 </p>
 
                 <form className="space-y-6">

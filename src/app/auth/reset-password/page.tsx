@@ -33,7 +33,7 @@ export default function ResetPasswordPage() {
         <div className="bg-white/80 backdrop-blur-md shadow-xl rounded-2xl border border-white/20 overflow-hidden animate-float">
           <div className="px-8 py-6 bg-gradient-to-r from-green-600 to-emerald-600 text-white">
             <h1 className="text-2xl font-bold animate-fade-in animation-delay-100">Reset Password</h1>
-            <p className="text-green-100 mt-1 animate-fade-in animation-delay-200">We'll help you get back into your account</p>
+            <p className="text-green-100 mt-1 animate-fade-in animation-delay-200">We&apos;ll help you get back into your account</p>
           </div>
 
           <div className="p-8 animate-fade-in animation-delay-300">

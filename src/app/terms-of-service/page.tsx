@@ -32,7 +32,7 @@ export default function TermsOfService() {
                 Welcome to Agentic Mechanic. These terms and conditions outline the rules and regulations for the use of our website and services.
               </p>
               <p className="mb-4">
-                By accessing this website, we assume you accept these terms and conditions in full. Do not continue to use Agentic Mechanic's website if you do not accept all of the terms and conditions stated on this page.
+                By accessing this website, we assume you accept these terms and conditions in full. Do not continue to use Agentic Mechanic&apos;s website if you do not accept all of the terms and conditions stated on this page.
               </p>
 
               <h2 className="text-xl font-semibold text-gray-800 mt-8 mb-4">2. License to Use</h2>
@@ -78,7 +78,7 @@ export default function TermsOfService() {
 
               <h2 className="text-xl font-semibold text-gray-800 mt-8 mb-4">7. Changes to Terms</h2>
               <p className="mb-4">
-                We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material we will provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.
+                We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material we will provide at least 30 days&apos; notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.
               </p>
 
               <h2 className="text-xl font-semibold text-gray-800 mt-8 mb-4">8. Contact Us</h2>
