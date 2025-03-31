@@ -2,14 +2,22 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Upload, FileText, BarChart, ArrowRight, Menu, X, ChevronRight, DollarSign } from "lucide-react";
+import { Upload, FileText, BarChart, ArrowRight, Menu, X, ChevronRight, DollarSign, Car, FileSearch, PiggyBank, ClipboardCheck, Wrench, AlertTriangle, Receipt, GaugeCircle, Settings, Sparkles, History, CalendarClock, Shield } from "lucide-react";
 import { Logo } from "@/components/common/Logo";
 import { WaitlistModal } from "@/components/waitlist/WaitlistModal";
-//import { PricingSection } from "../pricing/PricingSection";
+import { useAuth } from "@/components/auth/AuthProvider";
+import { LogoutButton } from "@/components/auth/LogoutButton";
+import { theme, getTextColor, getBgColor } from '@/styles/theme';
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/card';
+import { Section, SectionHeader } from '@/components/ui/Section';
+import { cn } from '@/lib/utils';
+import Image from "next/image";
 
 export function SingleScreenLanding() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isWaitlistOpen, setIsWaitlistOpen] = useState(false);
+  const { isAuthenticated, isLoading } = useAuth();
 
   const openWaitlist = () => setIsWaitlistOpen(true);
   const closeWaitlist = () => setIsWaitlistOpen(false);
@@ -17,15 +25,33 @@ export function SingleScreenLanding() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Hero Section with Navigation */}
-      <section className="relative bg-gradient-to-br from-blue-50 via-blue-100 to-white overflow-hidden">
-        {/* Updated background gradients */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-200/40 via-blue-100/30 to-transparent"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-white via-blue-50/50 to-transparent"></div>
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,_var(--tw-gradient-stops))] from-blue-100/20 via-white/30 to-transparent"></div>
+      <Section
+        gradient="hero"
+        gradientVariant="primary"
+        className="overflow-hidden"
+      >
+        {/* Background gradients */}
+        <div className={cn(
+          "absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]",
+          theme.gradients.hero.overlay1
+        )}></div>
+        <div className={cn(
+          "absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))]",
+          theme.gradients.hero.overlay2
+        )}></div>
+        <div className={cn(
+          "absolute inset-0 bg-[linear-gradient(120deg,_var(--tw-gradient-stops))]",
+          theme.gradients.hero.overlay3
+        )}></div>
 
         {/* Navigation */}
         <div className="fixed top-0 left-0 right-0 z-50 px-4 py-4">
-          <nav className="max-w-3xl mx-auto backdrop-blur-md shadow-lg rounded-full border border-white/20">
+          <nav className={cn(
+            "max-w-3xl mx-auto rounded-full",
+            theme.backgrounds.glass,
+            theme.shadows.lg,
+            theme.borders.light
+          )}>
             <div className="px-8 py-3.5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
@@ -34,35 +60,77 @@ export function SingleScreenLanding() {
 
                 {/* Desktop Navigation */}
                 <div className="hidden md:flex items-center space-x-8">
-                  <Link href="#features" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+                  <Link href="#features" className={cn(
+                    "font-medium transition-colors",
+                    getTextColor('gray', 700),
+                    "hover:text-green-600"
+                  )}>
                     Features
                   </Link>
-                  <Link href="#how-it-works" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+                  <Link href="#how-it-works" className={cn(
+                    "font-medium transition-colors",
+                    getTextColor('gray', 700),
+                    "hover:text-green-600"
+                  )}>
                     How It Works
                   </Link>
-                  {/* <Link href="#pricing" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
-                    Pricing
-                  </Link> */}
-                  <Link href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">
+                  <Link href="#contact" className={cn(
+                    "font-medium transition-colors",
+                    getTextColor('gray', 700),
+                    "hover:text-green-600"
+                  )}>
                     Contact
                   </Link>
                 </div>
 
-                {/* Try It Now Button */}
-                <div className="hidden md:block">
-                  <button
-                    onClick={openWaitlist}
-                    className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-2 rounded-full font-medium transition-all shadow-md hover:shadow-lg"
-                  >
-                    Join Waitlist
-                  </button>
+                {/* Auth Buttons */}
+                <div className="hidden md:flex items-center space-x-4">
+                  {isLoading ? (
+                    <div className="w-6 h-6 border-2 border-green-500 border-t-transparent rounded-full animate-spin"></div>
+                  ) : isAuthenticated ? (
+                    <>
+                      <Link
+                        href="/dashboard"
+                        className={cn(
+                          "font-medium",
+                          getTextColor('primary', 600),
+                          "hover:text-green-800"
+                        )}
+                      >
+                        Dashboard
+                      </Link>
+                      <LogoutButton />
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        href="/auth/login"
+                        className={cn(
+                          "font-medium",
+                          getTextColor('primary', 600),
+                          "hover:text-green-800"
+                        )}
+                      >
+                        Log in
+                      </Link>
+                      <Link href="/auth/signup">
+                        <Button variant="primary">
+                          Sign up
+                        </Button>
+                      </Link>
+                    </>
+                  )}
                 </div>
 
                 {/* Mobile menu button */}
                 <div className="md:hidden flex items-center">
                   <button
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    className="text-gray-700 hover:text-blue-800 focus:outline-none"
+                    className={cn(
+                      "focus:outline-none",
+                      getTextColor('gray', 700),
+                      "hover:text-green-800"
+                    )}
                   >
                     {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
                   </button>
@@ -72,35 +140,103 @@ export function SingleScreenLanding() {
 
             {/* Mobile Navigation */}
             {isMenuOpen && (
-              <div className="md:hidden backdrop-blur-md rounded-xl mt-2 shadow-lg mx-4 border border-white/20 fixed top-20 left-0 right-0 z-50">
+              <div className={cn(
+                "md:hidden fixed top-20 left-0 right-0 z-50 mx-4 rounded-xl",
+                theme.backgrounds.glass,
+                theme.shadows.lg,
+                theme.borders.light
+              )}>
                 <div className="px-4 pt-2 pb-3 space-y-2">
                   <Link
                     href="#features"
-                    className="block px-3 py-2 text-gray-700 hover:text-blue-800 hover:bg-blue-50/50 rounded-md"
+                    className={cn(
+                      "block px-3 py-2 rounded-md",
+                      getTextColor('gray', 700),
+                      "hover:text-green-800 hover:bg-green-50/50"
+                    )}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Features
                   </Link>
                   <Link
                     href="#how-it-works"
-                    className="block px-3 py-2 text-gray-700 hover:text-blue-800 hover:bg-blue-50/50 rounded-md"
+                    className={cn(
+                      "block px-3 py-2 rounded-md",
+                      getTextColor('gray', 700),
+                      "hover:text-green-800 hover:bg-green-50/50"
+                    )}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     How It Works
                   </Link>
                   <Link
                     href="#contact"
-                    className="block px-3 py-2 text-gray-700 hover:text-blue-800 hover:bg-blue-50/50 rounded-md"
+                    className={cn(
+                      "block px-3 py-2 rounded-md",
+                      getTextColor('gray', 700),
+                      "hover:text-green-800 hover:bg-green-50/50"
+                    )}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Contact
                   </Link>
-                  <button
-                    className="w-full text-left px-3 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full transition-all shadow-md"
-                    onClick={openWaitlist}
+
+                  {/* Mobile Auth Links */}
+                  {isLoading ? (
+                    <div className="flex justify-center py-2">
+                      <div className="w-6 h-6 border-2 border-green-500 border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                  ) : isAuthenticated ? (
+                    <>
+                      <Link
+                        href="/dashboard"
+                        className={cn(
+                          "block px-3 py-2 rounded-md",
+                          getTextColor('primary', 600),
+                          "hover:text-green-800 hover:bg-green-50/50"
+                        )}
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Dashboard
+                      </Link>
+                      <div className="px-3 py-2">
+                        <LogoutButton className="text-red-600 hover:text-red-800 font-medium" />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        href="/auth/login"
+                        className={cn(
+                          "block px-3 py-2 rounded-md",
+                          getTextColor('primary', 600),
+                          "hover:text-green-800 hover:bg-green-50/50"
+                        )}
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Log in
+                      </Link>
+                      <Link href="/auth/signup" onClick={() => setIsMenuOpen(false)}>
+                        <Button
+                          variant="primary"
+                          className="w-full"
+                        >
+                          Sign up
+                        </Button>
+                      </Link>
+                    </>
+                  )}
+
+                  <Button
+                    variant="secondary"
+                    className="w-full"
+                    onClick={() => {
+                      openWaitlist();
+                      setIsMenuOpen(false);
+                    }}
                   >
                     Join Waitlist
-                  </button>
+                  </Button>
                 </div>
               </div>
             )}
@@ -110,50 +246,66 @@ export function SingleScreenLanding() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-36 pb-24">
           <div className="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
             <div className="mb-12 lg:mb-0">
-              <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 leading-tight mb-6">
-              Discover the True Cost of Your Next Car.
+              <h1 className={cn(
+                "text-4xl sm:text-5xl font-bold leading-tight mb-6",
+                getTextColor('gray', 900)
+              )}>
+                Discover the True Cost of Your Next Car.
               </h1>
-              <p className="text-xl text-gray-600 mb-8">
-              Agentic Mechanic combines your driving habits, location, and car details to reveal every expense—from taxes to tires.
+              <p className={cn(
+                "text-xl mb-8",
+                getTextColor('gray', 600)
+              )}>
+                Agentic Mechanic combines your driving habits, location, and car details to reveal every expense—from taxes to tires.
                 Upload any car&apos;s service history and instantly understand its true condition and uncover future costs.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button
+                <Button
+                  variant="secondary"
+                  size="lg"
                   onClick={openWaitlist}
-                  className="bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white px-6 py-3 rounded-full font-medium flex items-center justify-center transition-all shadow-md hover:shadow-lg"
+                  className="flex items-center justify-center"
                 >
                   Join Waitlist <ArrowRight size={18} className="ml-2" />
-                </button>
-                <Link href="/how-it-works" className="border border-gray-300 hover:border-purple-500 bg-white/50 backdrop-blur-sm text-gray-700 hover:text-purple-600 px-6 py-3 rounded-full font-medium transition-all hover:shadow-md">
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="backdrop-blur-sm"
+                >
                   See How It Works
-                </Link>
+                </Button>
               </div>
             </div>
             <div className="relative">
-              <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-xl p-6 max-w-md mx-auto animate-float">
+              <Card
+                variant="translucent"
+                shadow="lg"
+                className="max-w-md mx-auto animate-float"
+              >
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center mb-6">
-                  <Upload size={48} className="mx-auto mb-4 text-blue-600" />
-                  <p className="text-gray-600">Drop any service history - we can read handwritten logs, scanned documents, or digital files</p>
+                  <Car size={48} className={cn("mx-auto mb-4", getTextColor('primary', 600))} />
+                  <p className={getTextColor('gray', 600)}>Drop any service history - we can read handwritten logs, scanned documents, or digital files</p>
                 </div>
-                <div className="bg-blue-50 rounded-lg p-4 mb-4">
+                <div className="bg-emerald-50 rounded-lg p-4 mb-4">
                   <div className="flex items-start">
-                    <FileText size={20} className="text-blue-600 mr-3 mt-1 flex-shrink-0" />
+                    <FileSearch size={20} className={cn("mr-3 mt-1 flex-shrink-0", getTextColor('primary', 600))} />
                     <div>
-                      <h3 className="font-medium text-gray-900">Smart History Analysis</h3>
-                      <p className="text-sm text-gray-600">Major repairs identified: Transmission replaced at 85,000 km. Next major service due in 5,000 km.</p>
+                      <h3 className={cn("font-medium", getTextColor('gray', 900))}>Smart History Analysis</h3>
+                      <p className={cn("text-sm", getTextColor('gray', 600))}>Major repairs identified: Transmission replaced at 85,000 km. Next major service due in 5,000 km.</p>
                     </div>
                   </div>
                 </div>
-                <div className="bg-green-50 rounded-lg p-4">
+                <div className="bg-emerald-50 rounded-lg p-4">
                   <div className="flex items-start">
-                    <BarChart size={20} className="text-green-600 mr-3 mt-1 flex-shrink-0" />
+                    <Receipt size={20} className="text-green-600 mr-3 mt-1 flex-shrink-0" />
                     <div>
-                      <h3 className="font-medium text-gray-900">Cost Prediction</h3>
-                      <p className="text-sm text-gray-600">Estimated maintenance costs for next 12 months: $2,800 (Including timing belt replacement)</p>
+                      <h3 className={cn("font-medium", getTextColor('gray', 900))}>Cost Prediction</h3>
+                      <p className={cn("text-sm", getTextColor('gray', 600))}>Estimated maintenance costs for next 12 months: $2,800 (Including timing belt replacement)</p>
                     </div>
                   </div>
                 </div>
-              </div>
+              </Card>
               {/* Decorative elements */}
               <div className="absolute -z-10 top-1/2 right-0 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
               <div className="absolute -z-10 top-1/3 left-0 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
@@ -161,11 +313,11 @@ export function SingleScreenLanding() {
             </div>
           </div>
         </div>
-      </section>
+      </Section>
 
       <main className="flex-grow">
         {/* Features Section */}
-        <section id="features" className="py-20 bg-white relative overflow-hidden">
+        <section id="features" className="py-20 bg-emerald-100 relative overflow-hidden">
           <div className="absolute inset-0 opacity-5">
             {/* ... existing background elements ... */}
           </div>
@@ -174,56 +326,60 @@ export function SingleScreenLanding() {
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">Make Informed Decisions, Avoid Costly Mistakes</h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Don&apos;t rely on guesswork or seller promises. Get data-driven insights about any used car&apos;s true condition and future costs.
+                Don't rely on guesswork or seller promises. Get data-driven insights about any used car's true condition and future costs.
               </p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-8">
               {/* Service History Analyzer */}
-              <div className="bg-gradient-to-br from-blue-50 to-white p-8 rounded-xl shadow-sm border border-gray-100">
-                <div className="bg-blue-100 p-3 rounded-full w-fit mb-6">
-                  <FileText size={24} className="text-blue-600" />
+              <div className="bg-emerald-50 p-8 rounded-xl border border-emerald-100">
+                <div className="bg-emerald-100 p-3 rounded-full w-fit mb-6">
+                  <History size={24} className="text-green-600" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Deep Service History Analysis</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">
+                  Deep Service History Analysis
+                </h3>
                 <p className="text-gray-600 mb-4">
                   Our AI reads and analyzes any service history format, uncovering hidden issues, maintenance patterns, and potential red flags that could cost you thousands.
                 </p>
                 <ul className="space-y-2">
                   <li className="flex items-start">
-                    <ChevronRight size={18} className="text-blue-600 mr-2 mt-1 flex-shrink-0" />
+                    <ChevronRight size={18} className="text-green-600 mr-2 mt-1 flex-shrink-0" />
                     <span className="text-gray-700">Identifies missed maintenance and potential future problems</span>
                   </li>
                   <li className="flex items-start">
-                    <ChevronRight size={18} className="text-blue-600 mr-2 mt-1 flex-shrink-0" />
+                    <ChevronRight size={18} className="text-green-600 mr-2 mt-1 flex-shrink-0" />
                     <span className="text-gray-700">Verifies if service intervals match manufacturer recommendations</span>
                   </li>
                   <li className="flex items-start">
-                    <ChevronRight size={18} className="text-blue-600 mr-2 mt-1 flex-shrink-0" />
+                    <ChevronRight size={18} className="text-green-600 mr-2 mt-1 flex-shrink-0" />
                     <span className="text-gray-700">Spots patterns that could indicate recurring problems</span>
                   </li>
                 </ul>
               </div>
 
               {/* Cost Estimator */}
-              <div className="bg-gradient-to-br from-blue-50 to-white p-8 rounded-xl shadow-sm border border-gray-100">
-                <div className="bg-blue-100 p-3 rounded-full w-fit mb-6">
-                  <DollarSign size={24} className="text-blue-600" />
+              <div className="bg-emerald-50 p-8 rounded-xl border border-emerald-100">
+                <div className="bg-emerald-100 p-3 rounded-full w-fit mb-6">
+                  <Receipt size={24} className="text-green-600" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Smart Cost Predictions</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">
+                  Smart Cost Predictions
+                </h3>
                 <p className="text-gray-600 mb-4">
                   Know exactly what you&apos;re getting into with accurate maintenance and repair cost forecasts based on the car&apos;s actual history and condition.
                 </p>
                 <ul className="space-y-2">
                   <li className="flex items-start">
-                    <ChevronRight size={18} className="text-blue-600 mr-2 mt-1 flex-shrink-0" />
+                    <ChevronRight size={18} className="text-green-600 mr-2 mt-1 flex-shrink-0" />
                     <span className="text-gray-700">Predicts upcoming maintenance costs with timeline estimates</span>
                   </li>
                   <li className="flex items-start">
-                    <ChevronRight size={18} className="text-blue-600 mr-2 mt-1 flex-shrink-0" />
+                    <ChevronRight size={18} className="text-green-600 mr-2 mt-1 flex-shrink-0" />
                     <span className="text-gray-700">Compares costs against similar models in your area</span>
                   </li>
                   <li className="flex items-start">
-                    <ChevronRight size={18} className="text-blue-600 mr-2 mt-1 flex-shrink-0" />
+                    <ChevronRight size={18} className="text-green-600 mr-2 mt-1 flex-shrink-0" />
                     <span className="text-gray-700">Helps negotiate better prices based on needed repairs</span>
                   </li>
                 </ul>
@@ -233,7 +389,7 @@ export function SingleScreenLanding() {
         </section>
 
         {/* How It Works Section */}
-        <section id="how-it-works" className="py-20 bg-gray-50 relative overflow-hidden">
+        <section id="how-it-works" className="py-20 bg-emerald-50 relative overflow-hidden">
           {/* ... existing background elements ... */}
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -247,11 +403,11 @@ export function SingleScreenLanding() {
             <div className="grid md:grid-cols-3 gap-8">
               {/* Step 1 */}
               <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 relative">
-                <div className="absolute -top-4 -left-4 bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg">
+                <div className="absolute -top-4 -left-4 bg-green-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg">
                   1
                 </div>
                 <div className="mb-6 flex justify-center">
-                  <Upload size={48} className="text-blue-600" />
+                  <ClipboardCheck size={48} className="text-green-600" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">Upload Service History</h3>
                 <p className="text-gray-600 text-center">
@@ -261,11 +417,11 @@ export function SingleScreenLanding() {
 
               {/* Step 2 */}
               <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 relative">
-                <div className="absolute -top-4 -left-4 bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg">
+                <div className="absolute -top-4 -left-4 bg-green-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg">
                   2
                 </div>
                 <div className="mb-6 flex justify-center">
-                  <FileText size={48} className="text-blue-600" />
+                  <Sparkles size={48} className="text-green-600" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">Get Instant Analysis</h3>
                 <p className="text-gray-600 text-center">
@@ -275,11 +431,11 @@ export function SingleScreenLanding() {
 
               {/* Step 3 */}
               <div className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 relative">
-                <div className="absolute -top-4 -left-4 bg-blue-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg">
+                <div className="absolute -top-4 -left-4 bg-green-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg">
                   3
                 </div>
                 <div className="mb-6 flex justify-center">
-                  <BarChart size={48} className="text-blue-600" />
+                  <Receipt size={48} className="text-green-600" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3 text-center">Make Better Decisions</h3>
                 <p className="text-gray-600 text-center">
@@ -290,10 +446,8 @@ export function SingleScreenLanding() {
           </div>
         </section>
 
-        {/* <PricingSection openWaitlist={openWaitlist} /> */}
-
         {/* Testimonials Section */}
-        <section className="py-20 bg-white">
+        <section className="py-20 bg-emerald-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">Join Smart Car Buyers</h2>
@@ -304,7 +458,7 @@ export function SingleScreenLanding() {
 
             <div className="grid md:grid-cols-3 gap-8">
               {/* Testimonial 1 */}
-              <div className="bg-blue-50 p-6 rounded-xl">
+              <div className="bg-emerald-50 p-6 rounded-xl">
                 <p className="text-gray-700 mb-4 italic">
                   &ldquo;I almost bought a car with transmission issues that would have cost $4,000 to fix. This tool spotted the warning signs in the service history that I missed.&rdquo;
                 </p>
@@ -312,7 +466,7 @@ export function SingleScreenLanding() {
               </div>
 
               {/* Testimonial 2 */}
-              <div className="bg-blue-50 p-6 rounded-xl">
+              <div className="bg-emerald-50 p-6 rounded-xl">
                 <p className="text-gray-700 mb-4 italic">
                   &ldquo;The cost predictions were spot on. I used them to negotiate $2,500 off the price because of upcoming maintenance needs.&rdquo;
                 </p>
@@ -320,7 +474,7 @@ export function SingleScreenLanding() {
               </div>
 
               {/* Testimonial 3 */}
-              <div className="bg-blue-50 p-6 rounded-xl">
+              <div className="bg-emerald-50 p-6 rounded-xl">
                 <p className="text-gray-700 mb-4 italic">
                   &ldquo;Finally, a tool that makes sense of messy service records. Saved me hours of research and helped me avoid a money pit.&rdquo;
                 </p>
@@ -331,9 +485,9 @@ export function SingleScreenLanding() {
         </section>
 
         {/* CTA Section */}
-        <section className="relative py-20 bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-600 text-white overflow-hidden">
+        <section className="relative py-20 bg-gradient-to-br from-green-600 via-emerald-400 to-emerald-600 text-white overflow-hidden">
           {/* Background gradients */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-blue-400/30 via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-lime-400/30 via-transparent to-transparent"></div>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-indigo-400/30 via-transparent to-transparent"></div>
 
           {/* Car gauge background element */}
@@ -373,6 +527,22 @@ export function SingleScreenLanding() {
             <p className="text-xl mb-8 max-w-3xl mx-auto">
               Join our waitlist to get early access and special launch pricing. Start making data-driven car buying decisions.
             </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                variant="secondary"
+                size="lg"
+                onClick={openWaitlist}
+              >
+                Join the Waitlist
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                See How It Works
+              </Button>
+            </div>
           </div>
         </section>
       </main>
@@ -439,9 +609,9 @@ export function SingleScreenLanding() {
                 <input
                   type="email"
                   placeholder="Your email"
-                  className="bg-gray-800 text-white px-4 py-2 rounded-l-md w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="bg-gray-800 text-white px-4 py-2 rounded-l-md w-full focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-md transition-colors">
+                <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-r-md transition-colors">
                   Subscribe
                 </button>
               </div>
@@ -451,9 +621,9 @@ export function SingleScreenLanding() {
           <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p>&copy; {new Date().getFullYear()} Agentic Mechanic. All rights reserved.</p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-              <a href="#" className="hover:text-white transition-colors">Contact Us</a>
+              <a href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</a>
+              <a href="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</a>
+              <a href="/contact-us" className="hover:text-white transition-colors">Contact Us</a>
             </div>
           </div>
         </div>

@@ -2,6 +2,10 @@ import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/components/auth/AuthProvider";
+import { Inter } from 'next/font/google';
+import { ThemeProvider } from '@/components/ui/ThemeProvider';
+import { theme } from '@/styles/theme';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,6 +16,8 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: "Agentic Mechanic - AI-Powered Service History Analysis",
@@ -39,9 +45,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased ${inter.className}`}
       >
-        {children}
+        <ThemeProvider theme={theme}>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </ThemeProvider>
         <Analytics />
       </body>
     </html>
