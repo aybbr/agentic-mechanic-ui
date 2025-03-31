@@ -113,9 +113,11 @@ export function SingleScreenLanding() {
                       >
                         Log in
                       </Link>
-                      <Button variant="primary">
-                        Sign up
-                      </Button>
+                      <Link href="/auth/signup">
+                        <Button variant="primary">
+                          Sign up
+                        </Button>
+                      </Link>
                     </>
                   )}
                 </div>
@@ -214,13 +216,14 @@ export function SingleScreenLanding() {
                       >
                         Log in
                       </Link>
-                      <Button
-                        variant="primary"
-                        className="w-full"
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        Sign up
-                      </Button>
+                      <Link href="/auth/signup" onClick={() => setIsMenuOpen(false)}>
+                        <Button
+                          variant="primary"
+                          className="w-full"
+                        >
+                          Sign up
+                        </Button>
+                      </Link>
                     </>
                   )}
 
@@ -314,7 +317,7 @@ export function SingleScreenLanding() {
 
       <main className="flex-grow">
         {/* Features Section */}
-        <section id="features" className="py-20 bg-white relative overflow-hidden">
+        <section id="features" className="py-20 bg-emerald-100 relative overflow-hidden">
           <div className="absolute inset-0 opacity-5">
             {/* ... existing background elements ... */}
           </div>
@@ -386,7 +389,7 @@ export function SingleScreenLanding() {
         </section>
 
         {/* How It Works Section */}
-        <section id="how-it-works" className="py-20 bg-gray-50 relative overflow-hidden">
+        <section id="how-it-works" className="py-20 bg-emerald-50 relative overflow-hidden">
           {/* ... existing background elements ... */}
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -444,7 +447,7 @@ export function SingleScreenLanding() {
         </section>
 
         {/* Testimonials Section */}
-        <section className="py-20 bg-white">
+        <section className="py-20 bg-emerald-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">Join Smart Car Buyers</h2>
@@ -482,9 +485,9 @@ export function SingleScreenLanding() {
         </section>
 
         {/* CTA Section */}
-        <section className="relative py-20 bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-600 text-white overflow-hidden">
+        <section className="relative py-20 bg-gradient-to-br from-green-600 via-emerald-400 to-emerald-600 text-white overflow-hidden">
           {/* Background gradients */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-blue-400/30 via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-lime-400/30 via-transparent to-transparent"></div>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-indigo-400/30 via-transparent to-transparent"></div>
 
           {/* Car gauge background element */}
@@ -618,9 +621,9 @@ export function SingleScreenLanding() {
           <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p>&copy; {new Date().getFullYear()} Agentic Mechanic. All rights reserved.</p>
             <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
-              <a href="#" className="hover:text-white transition-colors">Contact Us</a>
+              <a href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</a>
+              <a href="/terms-of-service" className="hover:text-white transition-colors">Terms of Service</a>
+              <a href="/contact-us" className="hover:text-white transition-colors">Contact Us</a>
             </div>
           </div>
         </div>

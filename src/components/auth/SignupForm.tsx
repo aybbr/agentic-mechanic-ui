@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Mail, Lock, Loader2, CheckCircle2 } from "lucide-react";
+import { getGradient } from "@/styles/theme";
 
 type SignupFormProps = {
   redirectTo?: string;
@@ -100,7 +101,7 @@ export function SignupForm({ redirectTo = "/dashboard" }: SignupFormProps) {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 bg-white/70 backdrop-blur-sm"
+            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200 bg-white/70 backdrop-blur-sm"
             placeholder="you@example.com"
           />
         </div>
@@ -117,7 +118,7 @@ export function SignupForm({ redirectTo = "/dashboard" }: SignupFormProps) {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 bg-white/70 backdrop-blur-sm"
+            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200 bg-white/70 backdrop-blur-sm"
             placeholder="••••••••"
           />
           <p className="text-xs text-gray-500 mt-1">Must be at least 8 characters</p>
@@ -135,7 +136,7 @@ export function SignupForm({ redirectTo = "/dashboard" }: SignupFormProps) {
             required
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 bg-white/70 backdrop-blur-sm"
+            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200 bg-white/70 backdrop-blur-sm"
             placeholder="••••••••"
           />
         </div>
@@ -145,7 +146,7 @@ export function SignupForm({ redirectTo = "/dashboard" }: SignupFormProps) {
         <button
           type="submit"
           disabled={loading}
-          className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200"
+          className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r ${getGradient('button', 'primary')} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-200`}
         >
           {loading ? (
             <div className="flex items-center">
@@ -176,7 +177,7 @@ export function SignupForm({ redirectTo = "/dashboard" }: SignupFormProps) {
       <div className="mt-4 text-center animate-fade-in animation-delay-600">
         <p className="text-sm text-gray-600">
           Already have an account?{" "}
-          <Link href="/auth/login" className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors">
+          <Link href="/auth/login" className="font-medium text-green-600 hover:text-green-500 transition-colors">
             Sign in
           </Link>
         </p>

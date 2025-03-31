@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Mail, Lock, Loader2 } from "lucide-react";
+import { getGradient } from "@/styles/theme";
 
 type LoginFormProps = {
   redirectTo?: string;
@@ -60,7 +61,7 @@ export function LoginForm({ redirectTo = "/dashboard" }: LoginFormProps) {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white/70 backdrop-blur-sm"
+            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200 bg-white/70 backdrop-blur-sm"
             placeholder="you@example.com"
           />
         </div>
@@ -77,14 +78,14 @@ export function LoginForm({ redirectTo = "/dashboard" }: LoginFormProps) {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 bg-white/70 backdrop-blur-sm"
+            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200 bg-white/70 backdrop-blur-sm"
             placeholder="••••••••"
           />
         </div>
       </div>
 
       <div className="flex items-center justify-end animate-fade-in animation-delay-450">
-        <Link href="/auth/reset-password" className="text-sm text-blue-600 hover:text-blue-800 transition-colors">
+        <Link href="/auth/reset-password" className="text-sm text-green-600 hover:text-green-800 transition-colors">
           Forgot your password?
         </Link>
       </div>
@@ -93,7 +94,7 @@ export function LoginForm({ redirectTo = "/dashboard" }: LoginFormProps) {
         <button
           type="submit"
           disabled={loading}
-          className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200"
+          className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r ${getGradient('button', 'primary')} focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-all duration-200`}
         >
           {loading ? (
             <div className="flex items-center">
@@ -124,7 +125,7 @@ export function LoginForm({ redirectTo = "/dashboard" }: LoginFormProps) {
       <div className="mt-4 text-center animate-fade-in animation-delay-600">
         <p className="text-sm text-gray-600">
           Don&apos;t have an account?{" "}
-          <Link href="/auth/signup" className="font-medium text-blue-600 hover:text-blue-500 transition-colors">
+          <Link href="/auth/signup" className="font-medium text-green-600 hover:text-green-500 transition-colors">
             Create an account
           </Link>
         </p>
