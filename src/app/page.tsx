@@ -1,9 +1,9 @@
-import { SingleScreenLanding } from "../components/landing/SingleScreenLanding";
+import { LandingPageTemplate } from "../components/templates/LandingPageTemplate";
 
 export default function Home() {
   return (
     <main>
-      <SingleScreenLanding />
+      <LandingPageTemplate />
     </main>
   );
 }

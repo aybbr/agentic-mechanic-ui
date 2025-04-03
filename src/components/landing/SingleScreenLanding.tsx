@@ -2,17 +2,17 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Upload, FileText, BarChart, ArrowRight, Menu, X, ChevronRight, DollarSign, Car, FileSearch, PiggyBank, ClipboardCheck, Wrench, AlertTriangle, Receipt, GaugeCircle, Settings, Sparkles, History, CalendarClock, Shield } from "lucide-react";
+import { ArrowRight, Menu, X, ChevronRight, Receipt, Sparkles, History, ClipboardCheck } from "lucide-react";
 import { Logo } from "@/components/common/Logo";
 import { WaitlistModal } from "@/components/waitlist/WaitlistModal";
 import { useAuth } from "@/components/auth/AuthProvider";
 import { LogoutButton } from "@/components/auth/LogoutButton";
-import { theme, getTextColor, getBgColor } from '@/styles/theme';
+import { theme, getTextColor } from '@/styles/theme';
 import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/card';
-import { Section, SectionHeader } from '@/components/ui/Section';
+import { Section } from '@/components/ui/Section';
 import { cn } from '@/lib/utils';
 import Image from "next/image";
+import { NewsletterForm } from "@/components/newsletter/NewsletterForm";
 
 export function SingleScreenLanding() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -103,6 +103,7 @@ export function SingleScreenLanding() {
                     </>
                   ) : (
                     <>
+                      {/* Temporarily hidden
                       <Link
                         href="/auth/login"
                         className={cn(
@@ -118,6 +119,7 @@ export function SingleScreenLanding() {
                           Sign up
                         </Button>
                       </Link>
+                      */}
                     </>
                   )}
                 </div>
@@ -205,6 +207,7 @@ export function SingleScreenLanding() {
                     </>
                   ) : (
                     <>
+                      {/* Temporarily hidden
                       <Link
                         href="/auth/login"
                         className={cn(
@@ -224,6 +227,7 @@ export function SingleScreenLanding() {
                           Sign up
                         </Button>
                       </Link>
+                      */}
                     </>
                   )}
 
@@ -268,6 +272,7 @@ export function SingleScreenLanding() {
                 >
                   Join Waitlist <ArrowRight size={18} className="ml-2" />
                 </Button>
+                {/* Temporarily hidden
                 <Button
                   variant="outline"
                   size="lg"
@@ -275,9 +280,11 @@ export function SingleScreenLanding() {
                 >
                   See How It Works
                 </Button>
+                */}
               </div>
             </div>
             <div className="relative">
+              {/* Temporarily hidden service history card
               <Card
                 variant="translucent"
                 shadow="lg"
@@ -306,10 +313,25 @@ export function SingleScreenLanding() {
                   </div>
                 </div>
               </Card>
+              */}
+
+              {/* Hero Image */}
+              <div className="relative max-w-xl mx-auto">
+                <Image
+                  src="/images/hero_landing.png"
+                  alt="Agentic Mechanic Hero"
+                  width={900}
+                  height={600}
+                  className="rounded-xl mix-blend-multiply backdrop-blur-sm animate-float-gentle p-1"
+                  style={{ objectFit: 'cover', objectPosition: 'center' }}
+                  priority
+                />
+              </div>
+
               {/* Decorative elements */}
-              <div className="absolute -z-10 top-1/2 right-0 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-              <div className="absolute -z-10 top-1/3 left-0 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
-              <div className="absolute -z-10 bottom-1/4 right-1/4 w-60 h-60 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+              <div className="absolute -z-10 top-1/2 right-0 w-72 h-72 bg-emerald-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+              <div className="absolute -z-10 top-1/3 left-0 w-72 h-72 bg-green-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+              <div className="absolute -z-10 bottom-1/4 right-1/4 w-60 h-60 bg-green-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
             </div>
           </div>
         </div>
@@ -326,7 +348,7 @@ export function SingleScreenLanding() {
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold text-gray-900 mb-4">Make Informed Decisions, Avoid Costly Mistakes</h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Don't rely on guesswork or seller promises. Get data-driven insights about any used car's true condition and future costs.
+                Don&apos;t rely on guesswork or seller promises. Get data-driven insights about any used car&apos;s true condition and future costs.
               </p>
             </div>
 
@@ -535,6 +557,7 @@ export function SingleScreenLanding() {
               >
                 Join the Waitlist
               </Button>
+              {/* Temporarily hidden
               <Button
                 variant="outline"
                 size="lg"
@@ -542,6 +565,7 @@ export function SingleScreenLanding() {
               >
                 See How It Works
               </Button>
+              */}
             </div>
           </div>
         </section>
@@ -594,9 +618,6 @@ export function SingleScreenLanding() {
                   <a href="#" className="hover:text-white transition-colors">About Us</a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">Careers</a>
-                </li>
-                <li>
                   <a href="#" className="hover:text-white transition-colors">Blog</a>
                 </li>
               </ul>
@@ -605,16 +626,7 @@ export function SingleScreenLanding() {
             <div>
               <h3 className="text-white text-lg font-bold mb-4">Stay Updated</h3>
               <p className="mb-4">Subscribe to our newsletter for the latest features and updates.</p>
-              <div className="flex">
-                <input
-                  type="email"
-                  placeholder="Your email"
-                  className="bg-gray-800 text-white px-4 py-2 rounded-l-md w-full focus:outline-none focus:ring-2 focus:ring-green-500"
-                />
-                <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-r-md transition-colors">
-                  Subscribe
-                </button>
-              </div>
+              <NewsletterForm />
             </div>
           </div>
 
