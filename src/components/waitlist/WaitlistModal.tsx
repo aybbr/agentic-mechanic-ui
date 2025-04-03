@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { X } from "lucide-react";
-import { countries, Country } from "./countries";
+import { useState, useMemo, useRef, useEffect } from "react";
+import { X, Check, Search, ChevronDown } from "lucide-react";
+import { countries } from "./countries";
 import { z } from "zod";
 
 interface WaitlistModalProps {
@@ -23,6 +23,9 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [countrySearch, setCountrySearch] = useState("");
+  const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
+  const countryDropdownRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -31,6 +34,35 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
     carOwnership: "",
     interestedIn: [] as string[],
   });
+
+  // Filter countries based on search input
+  const filteredCountries = useMemo(() => {
+    if (!countrySearch) return countries;
+    const search = countrySearch.toLowerCase();
+    return countries.filter(country =>
+      country.name.toLowerCase().includes(search)
+    );
+  }, [countrySearch]);
+
+  // Close the dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (countryDropdownRef.current && !countryDropdownRef.current.contains(event.target as Node)) {
+        setIsCountryDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  // Get selected country name
+  const selectedCountryName = useMemo(() => {
+    if (!formData.country) return "";
+    const country = countries.find(c => c.code === formData.country);
+    return country ? country.name : "";
+  }, [formData.country]);
 
   if (!isOpen) return null;
 
@@ -170,24 +202,65 @@ export function WaitlistModal({ isOpen, onClose }: WaitlistModalProps) {
               </div>
 
               <div>
-                <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="country-input" className="block text-sm font-medium text-gray-700 mb-2">
                   Country of Residence
                 </label>
-                <select
-                  id="country"
-                  value={formData.country}
-                  onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-                  className={`w-full rounded-lg border px-4 py-2.5 ${
-                    errors.country ? "border-red-300" : "border-gray-300"
-                  } focus:border-green-500 focus:ring-green-500 bg-white/70 backdrop-blur-sm`}
-                >
-                  <option value="">Select a country</option>
-                  {countries.map((country: Country) => (
-                    <option key={country.code} value={country.code}>
-                      {country.name}
-                    </option>
-                  ))}
-                </select>
+                <div className="relative" ref={countryDropdownRef}>
+                  <div
+                    className={`flex items-center justify-between w-full rounded-lg border px-4 py-2.5 cursor-pointer ${
+                      errors.country ? "border-red-300" : "border-gray-300"
+                    } focus:border-green-500 bg-white/70 backdrop-blur-sm`}
+                    onClick={() => setIsCountryDropdownOpen(!isCountryDropdownOpen)}
+                  >
+                    <span className={selectedCountryName ? "text-gray-900" : "text-gray-400"}>
+                      {selectedCountryName || "Select your country"}
+                    </span>
+                    <ChevronDown size={18} className="text-gray-500" />
+                  </div>
+
+                  {isCountryDropdownOpen && (
+                    <div className="absolute z-10 mt-1 w-full bg-white rounded-lg shadow-lg border border-gray-200 max-h-60 overflow-y-auto">
+                      <div className="sticky top-0 bg-white p-2 border-b border-gray-100">
+                        <div className="relative">
+                          <Search size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                          <input
+                            type="text"
+                            id="country-input"
+                            placeholder="Search countries..."
+                            value={countrySearch}
+                            onChange={(e) => setCountrySearch(e.target.value)}
+                            className="w-full pl-9 pr-4 py-2 rounded-md border border-gray-200 focus:border-green-500 focus:ring-1 focus:ring-green-500 text-sm"
+                            onClick={(e) => e.stopPropagation()}
+                          />
+                        </div>
+                      </div>
+                      <ul className="py-1">
+                        {filteredCountries.length === 0 ? (
+                          <li className="px-4 py-2 text-gray-500 text-sm">No countries found</li>
+                        ) : (
+                          filteredCountries.map((country) => (
+                            <li
+                              key={country.code}
+                              className={`px-4 py-2 cursor-pointer hover:bg-green-50 flex items-center ${
+                                formData.country === country.code ? "bg-green-50" : ""
+                              }`}
+                              onClick={() => {
+                                setFormData({ ...formData, country: country.code });
+                                setIsCountryDropdownOpen(false);
+                                setCountrySearch("");
+                              }}
+                            >
+                              <span className="flex-grow">{country.name}</span>
+                              {formData.country === country.code && (
+                                <Check size={16} className="text-green-600" />
+                              )}
+                            </li>
+                          ))
+                        )}
+                      </ul>
+                    </div>
+                  )}
+                </div>
                 {errors.country && (
                   <p className="mt-2 text-sm text-red-600">{errors.country}</p>
                 )}

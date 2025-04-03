@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/Button';
 import { Section } from '@/components/ui/Section';
 import { cn } from '@/lib/utils';
 import Image from "next/image";
+import { NewsletterForm } from "@/components/newsletter/NewsletterForm";
 
 export function SingleScreenLanding() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -315,13 +316,14 @@ export function SingleScreenLanding() {
               */}
 
               {/* Hero Image */}
-              <div className="relative max-w-lg mx-auto">
+              <div className="relative max-w-xl mx-auto">
                 <Image
                   src="/images/hero_landing.png"
                   alt="Agentic Mechanic Hero"
-                  width={800}
-                  height={533}
-                  className="rounded-lg mix-blend-multiply backdrop-blur-sm animate-float-gentle"
+                  width={900}
+                  height={600}
+                  className="rounded-xl mix-blend-multiply backdrop-blur-sm animate-float-gentle p-1"
+                  style={{ objectFit: 'cover', objectPosition: 'center' }}
                   priority
                 />
               </div>
@@ -616,9 +618,6 @@ export function SingleScreenLanding() {
                   <a href="#" className="hover:text-white transition-colors">About Us</a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">Careers</a>
-                </li>
-                <li>
                   <a href="#" className="hover:text-white transition-colors">Blog</a>
                 </li>
               </ul>
@@ -627,16 +626,7 @@ export function SingleScreenLanding() {
             <div>
               <h3 className="text-white text-lg font-bold mb-4">Stay Updated</h3>
               <p className="mb-4">Subscribe to our newsletter for the latest features and updates.</p>
-              <div className="flex">
-                <input
-                  type="email"
-                  placeholder="Your email"
-                  className="bg-gray-800 text-white px-4 py-2 rounded-l-md w-full focus:outline-none focus:ring-2 focus:ring-green-500"
-                />
-                <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-r-md transition-colors">
-                  Subscribe
-                </button>
-              </div>
+              <NewsletterForm />
             </div>
           </div>
 
