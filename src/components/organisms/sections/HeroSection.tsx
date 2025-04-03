@@ -4,10 +4,10 @@ import React from 'react';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Heading } from '@/components/atoms/typography/Heading';
 import { Text } from '@/components/atoms/typography/Text';
 import { Button } from '@/components/atoms/buttons/Button';
 import { useUIStore } from '@/store/uiStore';
+import { AnimatedText } from '@/components/ui/animated-text';
 
 interface HeroSectionProps {
   className?: string;
@@ -23,9 +23,12 @@ export function HeroSection({ className }: HeroSectionProps) {
     )}>
       <div className="lg:grid lg:grid-cols-2 lg:gap-8 items-center">
         <div className="mb-12 lg:mb-0">
-          <Heading level={1} className="mb-6">
-            Discover the True Cost of Your Next Car.
-          </Heading>
+          <AnimatedText
+            text="Discover the True Cost of Your Next Car."
+            textClassName="text-4xl md:text-5xl font-bold text-left"
+            underlineClassName="text-emerald-500"
+            className="mb-6"
+          />
 
           <Text variant="lead" className="mb-8">
             Agentic Mechanic combines your driving habits, location, and car details to reveal every expense—from taxes to tires.
