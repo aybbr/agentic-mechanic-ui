@@ -109,8 +109,7 @@ export function MainNavigation({
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className={cn(
-            "md:hidden fixed top-20 left-0 right-0 z-50 mx-4 rounded-xl",
-            theme.backgrounds.glass,
+            "md:hidden fixed top-20 left-0 right-0 z-50 mx-4 rounded-xl bg-emerald-50/95 backdrop-blur-md",
             theme.shadows.lg,
             theme.borders.light
           )}>
@@ -119,7 +118,7 @@ export function MainNavigation({
                 <NavLink
                   key={link.href}
                   href={link.href}
-                  className="block px-3 py-2 rounded-md hover:bg-green-50/50"
+                  className="block px-3 py-2 rounded-md hover:bg-emerald-100/80"
                   onClick={closeMenu}
                 >
                   {link.label}
@@ -138,7 +137,7 @@ export function MainNavigation({
                     className={cn(
                       "block px-3 py-2 rounded-md",
                       getTextColor('primary', 600),
-                      "hover:bg-green-50/50"
+                      "hover:bg-emerald-100/80"
                     )}
                     onClick={closeMenu}
                   >
@@ -156,7 +155,7 @@ export function MainNavigation({
                     className={cn(
                       "block px-3 py-2 rounded-md",
                       getTextColor('primary', 600),
-                      "hover:bg-green-50/50"
+                      "hover:bg-emerald-100/80"
                     )}
                     onClick={closeMenu}
                   >
@@ -176,7 +175,7 @@ export function MainNavigation({
 
               <Button
                 variant="secondary"
-                className="w-full"
+                className="w-full mt-2"
                 onClick={() => {
                   openWaitlist();
                   closeMenu();
