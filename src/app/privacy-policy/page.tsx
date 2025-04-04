@@ -74,7 +74,7 @@ export default function PrivacyPolicy() {
 
               <h2 className="text-xl font-semibold text-gray-800 mt-8 mb-4">6. Contact Us</h2>
               <p className="mb-4">
-                If you have any questions about this privacy policy or our privacy practices, please contact us at: <a href="mailto:privacy@agenticmechanic.com" className="text-green-600 hover:text-green-700 transition-colors">privacy@agenticmechanic.com</a>
+                If you have any questions about this privacy policy or our privacy practices, please contact us at: <a href="mailto:hello@agentic-mechanic.com" className="text-green-600 hover:text-green-700 transition-colors">hello@agentic-mechanic.com</a>
               </p>
             </div>
           </div>
