@@ -10,6 +10,7 @@ import { Button } from '@/components/atoms/buttons/Button';
 import { LogoutButton } from '@/components/auth/LogoutButton';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { useUIStore } from '@/store/uiStore';
+import Link from 'next/link';
 
 interface NavigationLink {
   label: string;
@@ -73,7 +74,6 @@ export function MainNavigation({
                 </>
               ) : (
                 <>
-                  {/* Temporarily hidden
                   <NavLink
                     href="/auth/login"
                     className={getTextColor('primary', 600)}
@@ -85,7 +85,6 @@ export function MainNavigation({
                       Sign up
                     </Button>
                   </Link>
-                  */}
                 </>
               )}
             </div>
@@ -149,7 +148,6 @@ export function MainNavigation({
                 </>
               ) : (
                 <>
-                  {/* Temporarily hidden
                   <NavLink
                     href="/auth/login"
                     className={cn(
@@ -169,7 +167,6 @@ export function MainNavigation({
                       Sign up
                     </Button>
                   </Link>
-                  */}
                 </>
               )}
 
