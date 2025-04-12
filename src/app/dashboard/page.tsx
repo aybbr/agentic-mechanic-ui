@@ -1,106 +1,160 @@
 "use client";
 
-import { useState } from "react";
-import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
-import { useAuth } from "@/components/auth/AuthProvider";
-import { LogoutButton } from "@/components/auth/LogoutButton";
-import { Logo } from "@/components/common/Logo";
-import Link from "next/link";
-import { ChatInterface } from "@/components/chat/ChatInterface";
+import React from "react";
+import { FileUploadForm } from "@/components/molecules/dashboard/FileUploadForm";
+import { UrlInputForm } from "@/components/molecules/dashboard/UrlInputForm";
+import { Globe, UploadCloud } from "lucide-react";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/input";
 
 export default function DashboardPage() {
-  const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState<"chat" | "history" | "account">("chat");
+  const [url, setUrl] = React.useState("");
+  const [isAnalyzing, setIsAnalyzing] = React.useState(false);
+  const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
+  const [isUploading, setIsUploading] = React.useState(false);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  const handleUrlSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!url.trim()) return;
+
+    setIsAnalyzing(true);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    setIsAnalyzing(false);
+    setUrl("");
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedFiles(Array.from(e.target.files).slice(0, 5));
+    }
+  };
+
+  const handleUpload = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedFiles.length) return;
+
+    setIsUploading(true);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    setIsUploading(false);
+    setSelectedFiles([]);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
 
   return (
-    <ProtectedRoute>
-      <div className="min-h-screen flex flex-col bg-gray-50">
-        {/* Header */}
-        <header className="bg-white border-b border-gray-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              <div className="flex items-center">
-                <Link href="/" className="flex-shrink-0">
-                  <Logo href={null} />
-                </Link>
-                <div className="hidden md:ml-6 md:flex md:space-x-8">
-                  <button
-                    onClick={() => setActiveTab("chat")}
-                    className={`${
-                      activeTab === "chat"
-                        ? "border-green-500 text-gray-900"
-                        : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                    } inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium`}
-                  >
-                    Chat
-                  </button>
-                  <button
-                    onClick={() => setActiveTab("history")}
-                    className={`${
-                      activeTab === "history"
-                        ? "border-green-500 text-gray-900"
-                        : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                    } inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium`}
-                  >
-                    History
-                  </button>
-                  <button
-                    onClick={() => setActiveTab("account")}
-                    className={`${
-                      activeTab === "account"
-                        ? "border-green-500 text-gray-900"
-                        : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
-                    } inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium`}
-                  >
-                    Account
-                  </button>
-                </div>
-              </div>
-              <div className="flex items-center">
-                <p className="text-sm text-gray-700 mr-4">
-                  {user?.email}
-                </p>
-                <LogoutButton />
-              </div>
-            </div>
-          </div>
-        </header>
+    <div className="container mx-auto px-4">
+      <h1 className="text-3xl font-bold text-gray-900 mb-6">My Account</h1>
 
-        {/* Main Content */}
-        <main className="flex-1 overflow-hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-            {activeTab === "chat" && (
-              <div className="h-[calc(100vh-4rem)]">
-                <ChatInterface />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* URL Input Section */}
+        <div className="bg-white rounded-lg shadow-md p-6 flex flex-col">
+          <h2 className="text-xl font-semibold mb-4">Analyze Car from URL</h2>
+          <p className="text-gray-600 mb-6">
+            Paste a URL to a car listing or advertisement to analyze it automatically.
+          </p>
+
+          <form onSubmit={handleUrlSubmit} className="flex flex-col flex-grow">
+            <div className="mb-4 flex-grow">
+              <div className="flex items-center gap-2 mb-4">
+                <Globe className="w-5 h-5 text-green-600" />
+                <h3 className="text-lg font-semibold">Paste Car Advertisement URL</h3>
               </div>
-            )}
-            {activeTab === "history" && (
-              <div className="py-6">
-                <h2 className="text-2xl font-bold text-gray-900">Your History</h2>
-                <p className="mt-4 text-gray-600">
-                  Your past conversations and analysis will appear here.
+
+              <label htmlFor="url" className="block text-sm font-medium text-gray-700 mb-1">
+                Advertisement URL
+              </label>
+              <Input
+                id="url"
+                type="url"
+                placeholder="https://example.com/car-listing"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                className="w-full"
+                required
+              />
+            </div>
+
+            <div className="mt-auto">
+              <Button
+                type="submit"
+                disabled={isAnalyzing || !url.trim()}
+                className="w-full h-11 text-white bg-green-500 hover:bg-green-600"
+              >
+                {isAnalyzing ? "Analyzing..." : "Analyze Car"}
+              </Button>
+            </div>
+          </form>
+        </div>
+
+        {/* File Upload Section */}
+        <div className="bg-white rounded-lg shadow-md p-6 flex flex-col">
+          <h2 className="text-xl font-semibold mb-4">Upload Car Images</h2>
+          <p className="text-gray-600 mb-6">
+            Upload images of the car you want to analyze. Limited to 5 files (JPG, PNG, or PDF).
+          </p>
+
+          <form onSubmit={handleUpload} className="flex flex-col flex-grow">
+            <div className="mb-4 flex-grow">
+              <div className="flex items-center gap-2 mb-4">
+                <UploadCloud className="w-5 h-5 text-green-600" />
+                <h3 className="text-lg font-semibold">Upload Car Documents</h3>
+              </div>
+
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:bg-gray-50">
+                <input
+                  type="file"
+                  multiple
+                  accept=".jpg,.jpeg,.png,.pdf"
+                  className="hidden"
+                  onChange={handleFileChange}
+                  ref={fileInputRef}
+                />
+
+                <UploadCloud className="mx-auto h-12 w-12 text-gray-400" />
+                <p className="mt-2 text-sm text-gray-600">
+                  Drag and drop files here, or{" "}
+                  <span
+                    className="text-green-600 font-medium cursor-pointer"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    browse
+                  </span>
+                </p>
+                <p className="mt-1 text-xs text-gray-500">
+                  Up to 5 files (JPG, PNG, PDF) • Max 10MB each
                 </p>
               </div>
-            )}
-            {activeTab === "account" && (
-              <div className="py-6">
-                <h2 className="text-2xl font-bold text-gray-900">Account Settings</h2>
-                <div className="mt-4 p-4 bg-white rounded-lg shadow">
-                  <p>
-                    <strong>Email:</strong> {user?.email}
+
+              {selectedFiles.length > 0 && (
+                <div className="mt-3">
+                  <p className="text-sm font-medium text-gray-700">
+                    Selected files: {selectedFiles.length}
                   </p>
-                  <p className="mt-2">
-                    <strong>Account created:</strong>{" "}
-                    {user?.created_at
-                      ? new Date(user.created_at).toLocaleDateString()
-                      : "N/A"}
-                  </p>
+                  <ul className="text-xs text-gray-500 mt-1">
+                    {selectedFiles.map((file, index) => (
+                      <li key={index}>{file.name}</li>
+                    ))}
+                  </ul>
                 </div>
-              </div>
-            )}
-          </div>
-        </main>
+              )}
+            </div>
+
+            <div className="mt-auto">
+              <Button
+                type="submit"
+                disabled={isUploading || selectedFiles.length === 0}
+                className="w-full h-11 text-white bg-green-500 hover:bg-green-600"
+              >
+                {isUploading ? "Uploading..." : "Upload Files"}
+              </Button>
+            </div>
+          </form>
+        </div>
       </div>
-    </ProtectedRoute>
+    </div>
   );
 }
