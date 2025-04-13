@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/components/auth/AuthProvider";
-import { Inter } from 'next/font/google';
+import { UserProvider } from "@/components/auth/UserContext";
 import { ThemeProvider } from '@/components/ui/ThemeProvider';
 import { theme } from '@/styles/theme';
 
@@ -16,8 +16,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: "Agentic Mechanic - AI-Powered Service History Analysis",
@@ -45,11 +43,13 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased ${inter.className}`}
+        className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
       >
         <ThemeProvider theme={theme}>
           <AuthProvider>
-            {children}
+            <UserProvider>
+              {children}
+            </UserProvider>
           </AuthProvider>
         </ThemeProvider>
         <Analytics />

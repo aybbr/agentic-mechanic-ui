@@ -7,14 +7,15 @@ import {
   Clock,
   Menu,
   LogOut,
-  Home
+  Home,
+  PlayCircle
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/common/Logo";
-import { Button } from "@/components/ui/Button";
 import { LogoutButton } from "@/components/auth/LogoutButton";
+import { useUser } from "@/components/auth/UserContext";
 
 interface SidebarNavProps {
   children: React.ReactNode;
@@ -23,13 +24,28 @@ interface SidebarNavProps {
 export default function DashboardLayout({ children }: SidebarNavProps) {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  const { user, profile, isLoading } = useUser();
+
+  // Construct the user's full name or use email as fallback
+  const displayName = React.useMemo(() => {
+    if (isLoading) return "Loading...";
+
+    if (profile && (profile.first_name || profile.last_name)) {
+      return `${profile.first_name || ''} ${profile.last_name || ''}`.trim();
+    }
+
+    return user?.email || "User";
+  }, [user, profile, isLoading]);
+
+  // Get user email
+  const userEmail = user?.email || "";
 
   const routes = [
     {
-      icon: User,
-      label: "My Account",
-      href: "/dashboard",
-      active: pathname === "/dashboard",
+      icon: PlayCircle,
+      label: "Get Started",
+      href: "/dashboard/get-started",
+      active: pathname === "/dashboard/get-started",
     },
     {
       icon: CreditCard,
@@ -44,6 +60,12 @@ export default function DashboardLayout({ children }: SidebarNavProps) {
       active: pathname === "/dashboard/history",
     },
     {
+      icon: User,
+      label: "My Account",
+      href: "/dashboard",
+      active: pathname === "/dashboard",
+    },
+    {
       icon: Home,
       label: "Back to Home",
       href: "/",
@@ -52,7 +74,7 @@ export default function DashboardLayout({ children }: SidebarNavProps) {
   ];
 
   return (
-    <div className="h-full relative">
+    <div className="h-full relative font-sans">
       {/* Mobile Navigation Toggle */}
       <button
         className="md:hidden fixed z-50 top-4 left-4 p-2 bg-white rounded-md shadow-md"
@@ -63,7 +85,7 @@ export default function DashboardLayout({ children }: SidebarNavProps) {
 
       {/* Sidebar Navigation */}
       <div className={cn(
-        "fixed inset-y-0 left-0 z-40 w-72 bg-white border-r border-gray-200 transition-transform duration-300 ease-in-out transform",
+        "fixed inset-y-0 left-0 z-40 w-72 bg-white border-r border-gray-200 transition-transform duration-300 ease-in-out transform font-sans",
         isMobileMenuOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
       )}>
         <div className="flex flex-col h-full p-4">
@@ -78,7 +100,7 @@ export default function DashboardLayout({ children }: SidebarNavProps) {
                   <Link
                     href={route.href}
                     className={cn(
-                      "flex items-center gap-x-3 p-3 text-sm rounded-md hover:bg-gray-100",
+                      "flex items-center gap-x-3 p-3 text-sm rounded-md hover:bg-gray-100 font-sans",
                       route.active ? "bg-gray-100 text-gray-900 font-medium" : "text-gray-700"
                     )}
                   >
@@ -96,23 +118,21 @@ export default function DashboardLayout({ children }: SidebarNavProps) {
                 <User className="h-6 w-6" />
               </div>
               <div>
-                <p className="text-sm font-medium">John Doe</p>
-                <p className="text-xs text-gray-500">john@example.com</p>
+                <p className="text-sm font-medium font-sans">{displayName}</p>
+                <p className="text-xs text-gray-500 font-sans">{userEmail}</p>
               </div>
             </div>
 
             <div className="px-3">
-              <Button
-                variant="outline"
-                className="w-full flex items-center gap-x-2 justify-center text-red-600 hover:text-red-700 hover:bg-red-50 border-red-100"
-                onClick={() => {
-                  // This would typically use your auth service's logout function
-                  window.location.href = "/auth/login";
-                }}
+              <LogoutButton
+                redirectTo="/auth/login"
+                className="w-full flex items-center gap-x-2 justify-center text-red-600 hover:text-red-700 hover:bg-red-50 border-red-100 font-sans rounded-md h-10 border"
               >
-                <LogOut className="h-4 w-4" />
-                <span>Sign Out</span>
-              </Button>
+                <div className="flex items-center gap-x-2">
+                  <LogOut className="h-4 w-4" />
+                  <span>Sign Out</span>
+                </div>
+              </LogoutButton>
             </div>
           </div>
         </div>

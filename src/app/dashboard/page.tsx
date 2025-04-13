@@ -1,159 +1,118 @@
 "use client";
 
-import React from "react";
-import { FileUploadForm } from "@/components/molecules/dashboard/FileUploadForm";
-import { UrlInputForm } from "@/components/molecules/dashboard/UrlInputForm";
-import { Globe, UploadCloud } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/input";
+import React, { useState } from "react";
+import { useUser } from "@/components/auth/UserContext";
 
 export default function DashboardPage() {
-  const [url, setUrl] = React.useState("");
-  const [isAnalyzing, setIsAnalyzing] = React.useState(false);
-  const [selectedFiles, setSelectedFiles] = React.useState<File[]>([]);
-  const [isUploading, setIsUploading] = React.useState(false);
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const { profile, updateProfile, isLoading } = useUser();
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+  });
+  const [isSaving, setIsSaving] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
-  const handleUrlSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!url.trim()) return;
+  // Initialize form data when profile is loaded
+  React.useEffect(() => {
+    if (profile) {
+      setFormData({
+        firstName: profile.first_name || "",
+        lastName: profile.last_name || "",
+      });
+    }
+  }, [profile]);
 
-    setIsAnalyzing(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setIsAnalyzing(false);
-    setUrl("");
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setSelectedFiles(Array.from(e.target.files).slice(0, 5));
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSaving(true);
+    setSuccessMessage("");
+
+    try {
+      await updateProfile({
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+      });
+      setSuccessMessage("Profile updated successfully!");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    } finally {
+      setIsSaving(false);
     }
   };
 
-  const handleUpload = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedFiles.length) return;
-
-    setIsUploading(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    setIsUploading(false);
-    setSelectedFiles([]);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  };
+  if (isLoading) {
+    return (
+      <div className="container px-4 py-10 mx-auto max-w-4xl">
+        <div className="bg-white rounded-lg shadow-sm p-6">
+          <h1 className="text-2xl font-bold mb-4">My Account</h1>
+          <div className="flex justify-center items-center h-40">
+            <div className="w-8 h-8 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="container mx-auto px-4">
-      <h1 className="text-3xl font-bold text-gray-900 mb-6">My Account</h1>
+    <div className="container px-4 py-10 mx-auto max-w-4xl">
+      <div className="bg-white rounded-lg shadow-sm p-6">
+        <h1 className="text-2xl font-bold mb-4">My Account</h1>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* URL Input Section */}
-        <div className="bg-white rounded-lg shadow-md p-6 flex flex-col">
-          <h2 className="text-xl font-semibold mb-4">Analyze Car from URL</h2>
-          <p className="text-gray-600 mb-6">
-            Paste a URL to a car listing or advertisement to analyze it automatically.
-          </p>
+        <form onSubmit={handleSubmit} className="space-y-6 max-w-md">
+          {successMessage && (
+            <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded">
+              {successMessage}
+            </div>
+          )}
 
-          <form onSubmit={handleUrlSubmit} className="flex flex-col flex-grow">
-            <div className="mb-4 flex-grow">
-              <div className="flex items-center gap-2 mb-4">
-                <Globe className="w-5 h-5 text-green-600" />
-                <h3 className="text-lg font-semibold">Paste Car Advertisement URL</h3>
-              </div>
-
-              <label htmlFor="url" className="block text-sm font-medium text-gray-700 mb-1">
-                Advertisement URL
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
+                First Name
               </label>
-              <Input
-                id="url"
-                type="url"
-                placeholder="https://example.com/car-listing"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                className="w-full"
-                required
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500"
               />
             </div>
 
-            <div className="mt-auto">
-              <Button
-                type="submit"
-                disabled={isAnalyzing || !url.trim()}
-                className="w-full h-11 text-white bg-green-500 hover:bg-green-600"
-              >
-                {isAnalyzing ? "Analyzing..." : "Analyze Car"}
-              </Button>
+            <div>
+              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
+                Last Name
+              </label>
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500"
+              />
             </div>
-          </form>
-        </div>
+          </div>
 
-        {/* File Upload Section */}
-        <div className="bg-white rounded-lg shadow-md p-6 flex flex-col">
-          <h2 className="text-xl font-semibold mb-4">Upload Car Images</h2>
-          <p className="text-gray-600 mb-6">
-            Upload images of the car you want to analyze. Limited to 5 files (JPG, PNG, or PDF).
-          </p>
-
-          <form onSubmit={handleUpload} className="flex flex-col flex-grow">
-            <div className="mb-4 flex-grow">
-              <div className="flex items-center gap-2 mb-4">
-                <UploadCloud className="w-5 h-5 text-green-600" />
-                <h3 className="text-lg font-semibold">Upload Car Documents</h3>
-              </div>
-
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:bg-gray-50">
-                <input
-                  type="file"
-                  multiple
-                  accept=".jpg,.jpeg,.png,.pdf"
-                  className="hidden"
-                  onChange={handleFileChange}
-                  ref={fileInputRef}
-                />
-
-                <UploadCloud className="mx-auto h-12 w-12 text-gray-400" />
-                <p className="mt-2 text-sm text-gray-600">
-                  Drag and drop files here, or{" "}
-                  <span
-                    className="text-green-600 font-medium cursor-pointer"
-                    onClick={() => fileInputRef.current?.click()}
-                  >
-                    browse
-                  </span>
-                </p>
-                <p className="mt-1 text-xs text-gray-500">
-                  Up to 5 files (JPG, PNG, PDF) • Max 10MB each
-                </p>
-              </div>
-
-              {selectedFiles.length > 0 && (
-                <div className="mt-3">
-                  <p className="text-sm font-medium text-gray-700">
-                    Selected files: {selectedFiles.length}
-                  </p>
-                  <ul className="text-xs text-gray-500 mt-1">
-                    {selectedFiles.map((file, index) => (
-                      <li key={index}>{file.name}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-
-            <div className="mt-auto">
-              <Button
-                type="submit"
-                disabled={isUploading || selectedFiles.length === 0}
-                className="w-full h-11 text-white bg-green-500 hover:bg-green-600"
-              >
-                {isUploading ? "Uploading..." : "Upload Files"}
-              </Button>
-            </div>
-          </form>
-        </div>
+          <div>
+            <button
+              type="submit"
+              disabled={isSaving}
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50"
+            >
+              {isSaving ? "Saving..." : "Save Changes"}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
