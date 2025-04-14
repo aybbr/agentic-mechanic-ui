@@ -8,6 +8,11 @@ export default function DashboardPage() {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    country: "",
+    city: "",
+    averageDistancePerYear: "",
+    distanceUnit: "km" as "km" | "miles",
+    drivingEnvironment: "mixed" as "city" | "highway" | "mixed",
   });
   const [isSaving, setIsSaving] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
@@ -18,11 +23,16 @@ export default function DashboardPage() {
       setFormData({
         firstName: profile.first_name || "",
         lastName: profile.last_name || "",
+        country: profile.country || "",
+        city: profile.city || "",
+        averageDistancePerYear: profile.average_distance_per_year?.toString() || "",
+        distanceUnit: profile.distance_unit || "km",
+        drivingEnvironment: profile.driving_environment || "mixed",
       });
     }
   }, [profile]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -39,6 +49,11 @@ export default function DashboardPage() {
       await updateProfile({
         first_name: formData.firstName,
         last_name: formData.lastName,
+        country: formData.country,
+        city: formData.city,
+        average_distance_per_year: formData.averageDistancePerYear ? Number(formData.averageDistancePerYear) : undefined,
+        distance_unit: formData.distanceUnit,
+        driving_environment: formData.drivingEnvironment,
       });
       setSuccessMessage("Profile updated successfully!");
     } catch (error) {
@@ -74,32 +89,106 @@ export default function DashboardPage() {
           )}
 
           <div className="space-y-4">
-            <div>
-              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
-                First Name
-              </label>
-              <input
-                type="text"
-                id="firstName"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500"
-              />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-1">
+                  Country
+                </label>
+                <input
+                  type="text"
+                  id="country"
+                  name="country"
+                  value={formData.country}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500"
+                />
+              </div>
+
+              <div>
+                <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">
+                  City
+                </label>
+                <input
+                  type="text"
+                  id="city"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500"
+                />
+              </div>
             </div>
 
             <div>
-              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
-                Last Name
+              <label htmlFor="averageDistancePerYear" className="block text-sm font-medium text-gray-700 mb-1">
+                Average Distance Per Year
               </label>
-              <input
-                type="text"
-                id="lastName"
-                name="lastName"
-                value={formData.lastName}
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  id="averageDistancePerYear"
+                  name="averageDistancePerYear"
+                  value={formData.averageDistancePerYear}
+                  onChange={handleChange}
+                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500"
+                />
+                <select
+                  name="distanceUnit"
+                  value={formData.distanceUnit}
+                  onChange={handleChange}
+                  className="px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500"
+                >
+                  <option value="km">km</option>
+                  <option value="miles">miles</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="drivingEnvironment" className="block text-sm font-medium text-gray-700 mb-1">
+                Driving Environment
+              </label>
+              <select
+                id="drivingEnvironment"
+                name="drivingEnvironment"
+                value={formData.drivingEnvironment}
                 onChange={handleChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500"
-              />
+              >
+                <option value="city">City</option>
+                <option value="highway">Highway</option>
+                <option value="mixed">Mixed</option>
+              </select>
             </div>
           </div>
 

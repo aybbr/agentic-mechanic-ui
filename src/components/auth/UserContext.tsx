@@ -10,6 +10,12 @@ interface UserProfile {
   id: string;
   first_name: string;
   last_name: string;
+  country?: string;
+  city?: string;
+  average_distance_per_year?: number;
+  distance_unit?: 'km' | 'miles';
+  driving_environment?: 'city' | 'highway' | 'mixed';
+  stripe_customer_id?: string;
   created_at?: string;
   updated_at?: string;
 }
