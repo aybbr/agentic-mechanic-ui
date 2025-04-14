@@ -1,25 +1,44 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { Globe, UploadCloud, Plus, Minus, Car, MapPin, CloudRain, Warehouse, Calendar, Navigation } from "lucide-react";
+import { Globe, UploadCloud, Plus, Minus, Car, MapPin, CloudRain, Warehouse, Calendar, Navigation, Save, CheckCircle } from "lucide-react";
+import { useUser } from "@/components/auth/UserContext";
 
 export default function GetStartedPage() {
+  const { profile, updateProfile } = useUser();
   const [url, setUrl] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [showInfoForm, setShowInfoForm] = useState(false);
+  const [saveToProfile, setSaveToProfile] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
 
   // Driving habits and environmental factors form state
   const [drivingInfo, setDrivingInfo] = useState({
-    tripFrequency: "daily",
-    tripLength: "mixed",
-    coldStarts: "1-3",
-    climate: "moderate",
-    parking: "street",
-    roadQuality: "good"
+    tripFrequency: profile?.trip_frequency || "daily",
+    tripLength: profile?.trip_length || "mixed",
+    coldStarts: profile?.cold_starts_per_week || "1-3",
+    climate: profile?.climate_conditions || "moderate",
+    parking: profile?.parking_situation || "street",
+    roadQuality: profile?.road_quality || "good"
   });
+
+  // Initialize form with profile data if available
+  React.useEffect(() => {
+    if (profile) {
+      setDrivingInfo({
+        tripFrequency: profile.trip_frequency || "daily",
+        tripLength: profile.trip_length || "mixed",
+        coldStarts: profile.cold_starts_per_week || "1-3",
+        climate: profile.climate_conditions || "moderate",
+        parking: profile.parking_situation || "street",
+        roadQuality: profile.road_quality || "good"
+      });
+    }
+  }, [profile]);
 
   const handleDrivingInfoChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -34,6 +53,12 @@ export default function GetStartedPage() {
     if (!url.trim()) return;
 
     setIsAnalyzing(true);
+
+    // If save to profile is enabled, save the data first
+    if (saveToProfile && showInfoForm) {
+      await handleSaveToProfile();
+    }
+
     // Simulate API call with driving info
     console.log("Analyzing with driving info:", drivingInfo);
     await new Promise(resolve => setTimeout(resolve, 1500));
@@ -52,6 +77,12 @@ export default function GetStartedPage() {
     if (!selectedFiles.length) return;
 
     setIsUploading(true);
+
+    // If save to profile is enabled, save the data first
+    if (saveToProfile && showInfoForm) {
+      await handleSaveToProfile();
+    }
+
     // Simulate API call with driving info
     console.log("Uploading with driving info:", drivingInfo);
     await new Promise(resolve => setTimeout(resolve, 1500));
@@ -59,6 +90,28 @@ export default function GetStartedPage() {
     setSelectedFiles([]);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
+    }
+  };
+
+  const handleSaveToProfile = async () => {
+    if (!profile) return;
+
+    setIsSaving(true);
+    try {
+      await updateProfile({
+        trip_frequency: drivingInfo.tripFrequency,
+        trip_length: drivingInfo.tripLength,
+        cold_starts_per_week: drivingInfo.coldStarts,
+        climate_conditions: drivingInfo.climate,
+        parking_situation: drivingInfo.parking,
+        road_quality: drivingInfo.roadQuality
+      });
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 3000);
+    } catch (error) {
+      console.error("Error saving to profile:", error);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -75,7 +128,7 @@ export default function GetStartedPage() {
           <div className="flex items-center gap-3">
             <Car className="w-5 h-5 text-emerald-600" />
             <h2 className="text-xl font-semibold">
-              Add Details for More Accurate Analysis
+              For more accurate analysis, add more details
             </h2>
           </div>
           <button
@@ -268,6 +321,41 @@ export default function GetStartedPage() {
                     </label>
                   ))}
                 </div>
+              </div>
+            </div>
+
+            {/* Save to Profile Option */}
+            <div className="mt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={saveToProfile}
+                  onChange={() => setSaveToProfile(!saveToProfile)}
+                  className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                />
+                <span className="text-sm text-gray-700">Save preferences to my profile for future analyses</span>
+              </label>
+
+              <div className="flex items-center gap-2">
+                {saveSuccess && (
+                  <div className="flex items-center text-emerald-600 text-sm">
+                    <CheckCircle className="w-4 h-4 mr-1" />
+                    <span>Saved!</span>
+                  </div>
+                )}
+
+                <button
+                  onClick={handleSaveToProfile}
+                  disabled={isSaving || !saveToProfile}
+                  className={`flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium ${
+                    saveToProfile
+                      ? "bg-emerald-600 text-white hover:bg-emerald-700"
+                      : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  }`}
+                >
+                  <Save className="w-4 h-4" />
+                  {isSaving ? "Saving..." : "Save Now"}
+                </button>
               </div>
             </div>
           </>

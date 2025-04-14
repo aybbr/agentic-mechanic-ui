@@ -15,6 +15,17 @@ interface UserProfile {
   average_distance_per_year?: number;
   distance_unit?: 'km' | 'miles';
   driving_environment?: 'city' | 'highway' | 'mixed';
+
+  // Driving habits
+  trip_frequency?: 'daily' | 'few times a week' | 'weekends only' | 'rarely';
+  trip_length?: 'short (<10 miles)' | 'medium' | 'long (>30 miles)' | 'mixed';
+  cold_starts_per_week?: '1-3' | '4-7' | '8+';
+
+  // Environmental factors
+  climate_conditions?: 'cold/snow' | 'moderate' | 'hot/humid' | 'coastal/salty';
+  parking_situation?: 'garage' | 'covered' | 'street' | 'varies';
+  road_quality?: 'poor/bumpy' | 'average' | 'good';
+
   stripe_customer_id?: string;
   created_at?: string;
   updated_at?: string;
