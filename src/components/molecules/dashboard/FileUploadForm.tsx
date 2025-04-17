@@ -161,6 +161,7 @@ export function FileUploadForm() {
                 <div className="flex items-center">
                   <div className="h-10 w-10 flex-shrink-0 rounded bg-gray-200 mr-2 overflow-hidden">
                     {file.type === "image" ? (
+                      /* eslint-disable-next-line @next/next/no-img-element */
                       <img
                         src={file.preview}
                         alt="Preview"
