@@ -42,6 +42,7 @@ export function ChatInterface() {
   };
 
   // Process a chunk of data from the stream
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const processChunk = (chunk: string, accumulatedResponse: string): string => {
     try {
       // Try parsing as JSON
@@ -53,6 +54,7 @@ export function ChatInterface() {
       } else {
         return accumulatedResponse + JSON.stringify(jsonChunk);
       }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
       // Try parsing as server-sent event
       if (chunk.startsWith('data:')) {

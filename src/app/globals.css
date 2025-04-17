@@ -78,6 +78,10 @@
   --chart-3: 120.6 100% 29.8%;
   --chart-4: 189.5 100% 37.5%;
   --chart-5: 259.1 100% 56.3%;
+
+  /* Add Geist as the default font */
+  --font-geist-sans: 'Geist', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --font-geist-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 }
 
 .dark {
@@ -115,7 +119,20 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-geist-sans);
+  }
+
+  p, span, div, a, button, input, textarea, select {
+    font-family: var(--font-geist-sans);
+  }
+
+  code, pre {
+    font-family: var(--font-geist-mono);
   }
 }
 

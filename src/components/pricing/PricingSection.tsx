@@ -1,131 +1,128 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Check } from "lucide-react";
+import React from 'react';
+import { PricingCard, PricingCardProps } from './PricingCard';
 
-interface PricingSectionProps {
-  openWaitlist: () => void;
-}
-
-interface PricingTier {
+// Define AddOn interface here as it's needed for the handler, but not the card
+export interface AddOn {
+  id: string;
   name: string;
-  price: string;
   description: string;
-  features: string[];
-  isPopular?: boolean;
-  perAnalysis?: string;
+  price: number;
 }
 
-const pricingTiers: PricingTier[] = [
+/**
+ * Available optional add-ons
+ */
+export const availableAddOns: AddOn[] = [
   {
-    name: "Free Trial",
-    price: "$0",
-    description: "Try our service with a sample report",
-    features: [
-      "Sample vehicle history analysis",
-      "Basic cost prediction",
-      "Limited feature access",
-      "24-hour access"
-    ]
+    id: 'negotiation',
+    name: 'Negotiation Tips',
+    description: "AI-generated advice on negotiating based on the car's condition and market value.",
+    price: 10,
   },
   {
-    name: "Single Analysis",
-    price: "$35",
-    description: "Perfect for one-time car evaluation",
-    features: [
-      "Full vehicle history analysis",
-      "Detailed cost predictions",
-      "Maintenance timeline",
-      "Export to PDF",
-      "30-day access to report"
-    ],
-    perAnalysis: "$35/report"
+    id: 'market',
+    name: 'Market Comparison',
+    description: "Compares the car's cost of ownership to similar models in the user's region.",
+    price: 15,
   },
-  {
-    name: "Bundle of 3",
-    price: "$90",
-    description: "Compare multiple vehicles",
-    features: [
-      "Everything in Single Analysis",
-      "Compare vehicles side by side",
-      "Priority support",
-      "60-day access to reports",
-      "Save $15 vs single reports"
-    ],
-    isPopular: true,
-    perAnalysis: "$30/report"
-  },
-  {
-    name: "Bundle of 5",
-    price: "$140",
-    description: "Best for serious car shoppers",
-    features: [
-      "Everything in Bundle of 3",
-      "Extended 90-day access",
-      "Vehicle price negotiation tips",
-      "Market comparison data",
-      "Save $35 vs single reports"
-    ],
-    perAnalysis: "$28/report"
-  }
 ];
 
-export function PricingSection({ openWaitlist }: PricingSectionProps) {
+/**
+ * Default pricing tiers for Agentic Mechanic
+ */
+const defaultTiers: Omit<PricingCardProps, 'onSelect'>[] = [
+  {
+    title: 'Single Analysis',
+    description: 'Full service log analysis + true cost of ownership. Perfect for one car.',
+    price: '$35',
+    features: [
+      'Detailed service log insights',
+      'Personalized cost of ownership',
+      'Covers taxes, insurance, fuel, tires, and more',
+      'Avoid costly mistakes and save thousands',
+    ],
+    buttonText: 'Get My Report',
+    badge: undefined,
+    highlight: false,
+  },
+  {
+    title: 'Bundle of 3 Analyses',
+    description: 'Best for comparing multiple cars. Save $15!',
+    price: '$90',
+    perAnalysis: '$30/report',
+    features: [
+      'Everything in Single Analysis',
+      'Analyze up to 3 cars',
+      'Ideal for car shoppers comparing options',
+      'Priority support',
+    ],
+    buttonText: 'Compare 3 Cars',
+    badge: 'Best Value',
+    highlight: true,
+  },
+  {
+    title: 'Bundle of 5 Analyses',
+    description: 'For serious buyers or small resellers. Save $35!',
+    price: '$140',
+    perAnalysis: '$28/report',
+    features: [
+      'Everything in Bundle of 3',
+      'Analyze up to 5 cars',
+      'Great for families or resellers',
+      'Maximum savings',
+    ],
+    buttonText: 'Get 5 Reports',
+    badge: undefined,
+    highlight: false,
+  },
+];
+
+/**
+ * Props for PricingSection
+ */
+export interface PricingSectionProps {
+  tiers?: Omit<PricingCardProps, 'onSelect'>[];
+  onSelectTier?: (tier: Omit<PricingCardProps, 'onSelect'>) => void;
+}
+
+export function PricingSection({
+  tiers = defaultTiers,
+  onSelectTier,
+}: PricingSectionProps) {
+  // Updated handler to just pass the selected tier
+  const handleSelect = (tier: Omit<PricingCardProps, 'onSelect'>) => {
+    if (onSelectTier) {
+      onSelectTier(tier);
+    }
+    // Default behavior (e.g., log selection)
+    console.log('Selected Tier:', tier.title);
+  };
+
   return (
-    <section id="pricing" className="py-20 bg-gradient-to-b from-white to-indigo-50/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Simple, Transparent Pricing
-          </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Choose the perfect plan for your car buying journey
+    <section id="pricing" className="py-20 bg-muted/40">
+      <div className="container mx-auto px-4">
+        <div className="max-w-2xl mx-auto text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">All-in-One Car Buying Intelligence</h2>
+          <p className="text-lg text-muted-foreground mb-2">
+            Agentic Mechanic delivers <span className="font-semibold text-primary">service log analysis</span> and <span className="font-semibold text-primary">true cost of ownership</span> in one powerful tool.
+          </p>
+          <p className="text-base text-muted-foreground">
+            Go beyond basic vehicle history checks. Get personalized, actionable insights to avoid costly mistakes and save thousands on your next car.
           </p>
         </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {pricingTiers.map((tier) => (
-            <Card key={tier.name} className={`relative ${tier.isPopular ? 'border-purple-400 shadow-lg' : ''}`}>
-              {tier.isPopular && (
-                <Badge className="absolute -top-2 -right-2 bg-gradient-to-r from-purple-500 to-indigo-600">
-                  Most Popular
-                </Badge>
-              )}
-              <CardHeader>
-                <CardTitle>{tier.name}</CardTitle>
-                <CardDescription>{tier.description}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="mb-6">
-                  <span className="text-4xl font-bold text-gray-900">{tier.price}</span>
-                  {tier.perAnalysis && (
-                    <span className="text-sm text-gray-500 ml-2">
-                      ({tier.perAnalysis})
-                    </span>
-                  )}
-                </div>
-                <ul className="space-y-3">
-                  {tier.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2">
-                      <Check size={18} className="text-purple-600 flex-shrink-0" />
-                      <span className="text-gray-600 text-sm">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-              <CardFooter>
-                <button
-                  onClick={openWaitlist}
-                  className={`w-full py-2 px-4 rounded-lg font-medium transition-all ${
-                    tier.isPopular
-                      ? 'bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white shadow-md hover:shadow-lg'
-                      : 'bg-white border border-gray-200 hover:border-purple-400 text-gray-900 hover:bg-purple-50'
-                  }`}
-                >
-                  Join Waitlist
-                </button>
-              </CardFooter>
-            </Card>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-5xl mx-auto items-stretch">
+          {tiers.map((tier, index) => (
+            <PricingCard
+              key={index}
+              {...tier}
+              onSelect={() => handleSelect(tier)}
+            />
           ))}
+        </div>
+        <div className="max-w-2xl mx-auto text-center mt-10">
+          <p className="text-sm text-muted-foreground">
+            All prices are one-time payments. No hidden fees. Questions? <a href="#contact" className="underline text-primary">Contact us</a>.
+          </p>
         </div>
       </div>
     </section>

@@ -4,17 +4,19 @@ import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Mail, Lock, Loader2, CheckCircle2 } from "lucide-react";
+import { Mail, Lock, Loader2, CheckCircle2, User } from "lucide-react";
 import { getGradient } from "@/styles/theme";
 
 type SignupFormProps = {
   redirectTo?: string;
 };
 
-export function SignupForm({ redirectTo = "/dashboard" }: SignupFormProps) {
+export function SignupForm({ redirectTo = "/dashboard/get-started" }: SignupFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -41,17 +43,37 @@ export function SignupForm({ redirectTo = "/dashboard" }: SignupFormProps) {
     setLoading(true);
 
     try {
-      const { data, error } = await supabase.auth.signUp({
+      const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/auth/callback`,
+          data: {
+            first_name: firstName,
+            last_name: lastName,
+          },
         },
       });
 
-      if (error) {
-        setError(error.message);
+      if (signUpError) {
+        setError(signUpError.message);
         return;
+      }
+
+      // If user was created successfully, update their profile immediately
+      if (data?.user) {
+        // We'll use the user's metadata for the profile
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .upsert({
+            id: data.user.id,
+            first_name: firstName,
+            last_name: lastName,
+          });
+
+        if (profileError) {
+          console.error("Error updating profile:", profileError);
+        }
       }
 
       // Check if auto-confirm is enabled (user is immediately signed in)
@@ -88,6 +110,42 @@ export function SignupForm({ redirectTo = "/dashboard" }: SignupFormProps) {
   return (
     <form onSubmit={handleSignup} className="space-y-5">
       <div className="space-y-4 animate-fade-in animation-delay-400">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+              <User size={16} className="text-gray-400" />
+              <span>First Name</span>
+            </label>
+            <input
+              id="firstName"
+              name="firstName"
+              type="text"
+              autoComplete="given-name"
+              required
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200 bg-white/70 backdrop-blur-sm"
+              placeholder="John"
+            />
+          </div>
+          <div>
+            <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
+              <User size={16} className="text-gray-400" />
+              <span>Last Name</span>
+            </label>
+            <input
+              id="lastName"
+              name="lastName"
+              type="text"
+              autoComplete="family-name"
+              required
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200 bg-white/70 backdrop-blur-sm"
+              placeholder="Doe"
+            />
+          </div>
+        </div>
         <div>
           <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1 flex items-center gap-2">
             <Mail size={16} className="text-gray-400" />
