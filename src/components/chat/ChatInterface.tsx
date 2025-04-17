@@ -35,43 +35,43 @@ export function ChatInterface() {
   };
 
   // Update a specific message in the messages array
-  // const updateMessage = (id: string, updates: Partial<Message>) => {
-  //   setMessages(prev =>
-  //     prev.map(msg => msg.id === id ? { ...msg, ...updates } : msg)
-  //   );
-  // };
+  const updateMessage = (id: string, updates: Partial<Message>) => {
+    setMessages(prev =>
+      prev.map(msg => msg.id === id ? { ...msg, ...updates } : msg)
+    );
+  };
 
   // Process a chunk of data from the stream
-  // const processChunk = (chunk: string, accumulatedResponse: string): string => {
-  //   try {
-  //     // Try parsing as JSON
-  //     const jsonChunk = JSON.parse(chunk);
-  //     if (jsonChunk.response) {
-  //       return accumulatedResponse + jsonChunk.response;
-  //     } else if (typeof jsonChunk === 'string') {
-  //       return accumulatedResponse + jsonChunk;
-  //     } else {
-  //       return accumulatedResponse + JSON.stringify(jsonChunk);
-  //     }
-  //   } catch (e) {
-  //     // Try parsing as server-sent event
-  //     if (chunk.startsWith('data:')) {
-  //       try {
-  //         const jsonData = JSON.parse(chunk.substring(5).trim());
-  //         if (jsonData.response) {
-  //           return accumulatedResponse + jsonData.response;
-  //         } else {
-  //           return accumulatedResponse + JSON.stringify(jsonData);
-  //         }
-  //       } catch {
-  //         return accumulatedResponse + chunk.substring(5).trim();
-  //       }
-  //     } else {
-  //       // Use raw chunk as fallback
-  //       return accumulatedResponse + chunk;
-  //     }
-  //   }
-  // };
+  const processChunk = (chunk: string, accumulatedResponse: string): string => {
+    try {
+      // Try parsing as JSON
+      const jsonChunk = JSON.parse(chunk);
+      if (jsonChunk.response) {
+        return accumulatedResponse + jsonChunk.response;
+      } else if (typeof jsonChunk === 'string') {
+        return accumulatedResponse + jsonChunk;
+      } else {
+        return accumulatedResponse + JSON.stringify(jsonChunk);
+      }
+    } catch (e) {
+      // Try parsing as server-sent event
+      if (chunk.startsWith('data:')) {
+        try {
+          const jsonData = JSON.parse(chunk.substring(5).trim());
+          if (jsonData.response) {
+            return accumulatedResponse + jsonData.response;
+          } else {
+            return accumulatedResponse + JSON.stringify(jsonData);
+          }
+        } catch {
+          return accumulatedResponse + chunk.substring(5).trim();
+        }
+      } else {
+        // Use raw chunk as fallback
+        return accumulatedResponse + chunk;
+      }
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,11 +89,38 @@ export function ChatInterface() {
     setIsLoading(true);
 
     try {
-      // Add your message handling logic here
-      // This is a placeholder to use setIsLoading
+      // Create an AI response message with streaming indicator
+      const aiMessageId = (Date.now() + 1).toString();
+      setMessages(prev => [
+        ...prev,
+        {
+          id: aiMessageId,
+          content: "",
+          role: "assistant",
+          timestamp: new Date(),
+          isStreaming: true
+        }
+      ]);
+
+      // Simulate API call for now
       await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Update with a response
+      updateMessage(aiMessageId, {
+        content: "I'm happy to help with your car-related questions. Could you provide more details about what you're looking for?",
+        isStreaming: false
+      });
     } catch (error) {
       console.error("Error processing message:", error);
+      setMessages(prev => [
+        ...prev,
+        {
+          id: Date.now().toString(),
+          content: "Sorry, there was an error processing your request. Please try again.",
+          role: "assistant",
+          timestamp: new Date()
+        }
+      ]);
     } finally {
       setIsLoading(false);
     }
